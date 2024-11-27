@@ -1,19 +1,22 @@
 package com.zimaku.zimaku;
 
-import com.zimaku.zimaku.user.entity.Privilege;
-import com.zimaku.zimaku.user.entity.Role;
-import com.zimaku.zimaku.user.entity.User;
-import com.zimaku.zimaku.user.repository.PrivilegeRepository;
-import com.zimaku.zimaku.user.repository.RoleRepository;
-import com.zimaku.zimaku.user.repository.UserRepository;
+import com.zimaku.zimaku.domain.user.entity.Privilege;
+import com.zimaku.zimaku.domain.user.entity.Role;
+import com.zimaku.zimaku.domain.user.entity.User;
+import com.zimaku.zimaku.domain.user.repository.PrivilegeRepository;
+import com.zimaku.zimaku.domain.user.repository.RoleRepository;
+import com.zimaku.zimaku.domain.user.repository.UserRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.security.crypto.password.PasswordEncoder;
+
 import java.util.Arrays;
 import java.util.List;
 
+@EnableJpaAuditing
 @SpringBootApplication
 public class Application {
 

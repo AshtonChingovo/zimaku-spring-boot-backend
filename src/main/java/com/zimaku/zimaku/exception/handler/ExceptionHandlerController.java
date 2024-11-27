@@ -8,6 +8,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -41,14 +42,14 @@ public class ExceptionHandlerController extends ResponseEntityExceptionHandler {
         return errorDetailsResponse(ex, ex.getMessage(), Collections.singletonList(ex.getMessage()), webRequest, BAD_REQUEST);
     }
 
-/*    @ExceptionHandler(AuthenticationException.class)
-    public ResponseEntity<Object> handleAuthenticationException(AuthenticationException ex, @NonNull WebRequest webRequest){
-        return errorDetailsResponse(ex, "Failed to authenticate user", Collections.singletonList(ex.getMessage()), webRequest, UNAUTHORIZED);
-    }*/
+    @ExceptionHandler(AccessDeniedException.class)
+    public ResponseEntity<Object> handleAccessDeniedException(AccessDeniedException ex, @NonNull WebRequest webRequest){
+        return errorDetailsResponse(ex, ex.getMessage(), Collections.singletonList(ex.getMessage()), webRequest, UNAUTHORIZED);
+    }
 
     @Override
-    protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, @NonNull HttpHeaders headers,
-                                                                  @NonNull HttpStatusCode status, @NonNull WebRequest webRequest) {
+    protected @NonNull ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, @NonNull HttpHeaders headers,
+                                                                           @NonNull HttpStatusCode status, @NonNull WebRequest webRequest) {
         List<String> errors = new ArrayList<>();
         ex.getBindingResult().getFieldErrors().forEach(error -> errors.add(error.getDefaultMessage()));
         return errorDetailsResponse(ex, "Data sent contains invalid fields", errors, webRequest, BAD_REQUEST);
@@ -56,8 +57,8 @@ public class ExceptionHandlerController extends ResponseEntityExceptionHandler {
 
     private ResponseEntity<Object> errorDetailsResponse(Exception exception, String exceptionMessage, List<String> errorsList, WebRequest webRequest, HttpStatus httpStatus){
         var response = new ErrorDetails(
-                HttpStatus.BAD_REQUEST.name(),
-                HttpStatus.BAD_REQUEST.value(),
+                httpStatus.name(),
+                httpStatus.value(),
                 exceptionMessage,
                 errorsList
         );

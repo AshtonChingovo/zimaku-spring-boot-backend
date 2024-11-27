@@ -45,13 +45,13 @@ public class JwtHelper {
         }
     }
 
-    public String extractUsername(String token) {
-        return getTokenBody(token).getSubject();
-    }
-
     public Boolean validateToken(String token, UserDetails userDetails) {
         final String username = extractUsername(token);
         return username.equals(userDetails.getUsername()) && !isTokenExpired(token);
+    }
+
+    public String extractUsername(String token) {
+        return getTokenBody(token).getSubject();
     }
 
     private boolean isTokenExpired(String token) {

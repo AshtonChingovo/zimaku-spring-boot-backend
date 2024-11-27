@@ -17,8 +17,8 @@ import java.nio.file.AccessDeniedException;
 @Component
 public class JwtAuthFilter extends OncePerRequestFilter {
 
-    private JpaUserDetailsService jpaUserDetailsService;
-    private JwtHelper jwtHelper;
+    private final JpaUserDetailsService jpaUserDetailsService;
+    private final JwtHelper jwtHelper;
 
     public JwtAuthFilter(JpaUserDetailsService jpaUserDetailsService) {
         this.jpaUserDetailsService = jpaUserDetailsService;
