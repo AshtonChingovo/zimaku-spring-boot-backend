@@ -21,7 +21,7 @@ public class ChicksController {
     }
 
     @PostMapping
-    public ResponseEntity<ChicksDto> saveChicks(@Valid @RequestBody ChicksDto chicksDto){
+    public ResponseEntity<Object> saveChicks(@Valid @RequestBody ChicksDto chicksDto){
         chicksService.saveChicks(chicksDto);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }

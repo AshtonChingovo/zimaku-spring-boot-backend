@@ -6,6 +6,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 
 import java.time.Instant;
+import java.util.Date;
 
 
 public record ChicksDto(
@@ -21,8 +22,8 @@ public record ChicksDto(
         @NotNull(message = "Number of fatalities should always be positive")
         @Digits(integer = 3, fraction = 0)
         Integer fatalities,
-        @NotNull
+        @NotNull(message = "Batch number should be provided")
         @NotEmpty(message = "Batch number cannot be empty")
         String batch,
-        Instant date) {
+        Date date) {
 }
