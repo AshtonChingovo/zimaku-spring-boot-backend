@@ -3,6 +3,7 @@ package com.zimaku.zimaku.domain.user.service;
 import com.zimaku.zimaku.domain.user.entity.User;
 import com.zimaku.zimaku.domain.user.repository.RoleRepository;
 import com.zimaku.zimaku.exception.UsernameAlreadyExistsException;
+import com.zimaku.zimaku.mapper.ChicksMapper;
 import com.zimaku.zimaku.security.JwtHelper;
 import com.zimaku.zimaku.domain.user.dto.LoginRequestDto;
 import com.zimaku.zimaku.domain.user.dto.AuthResponseDto;
@@ -23,6 +24,7 @@ public class UserService {
     private final JwtHelper jwtHelper;
     private final RefreshTokenService refreshTokenService;
     private final AuthenticationManager authenticationManager;
+
 
     public UserService(UserRepository userRepository,
                        RoleRepository roleRepository,
