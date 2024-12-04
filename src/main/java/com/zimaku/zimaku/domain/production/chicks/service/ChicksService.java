@@ -12,10 +12,9 @@ public class ChicksService {
     private final ChicksRepository chicksRepository;
     private ChicksMapper chicksMapper;
 
-    public ChicksService(ChicksRepository chicksRepository,
-                         ChicksMapper chicksMapper) {
+    public ChicksService(ChicksRepository chicksRepository) {
         this.chicksRepository = chicksRepository;
-        this.chicksMapper = chicksMapper;
+        // this.chicksMapper = chicksMapper;
     }
 
     public void saveChicks(ChicksDto chicksDto){
