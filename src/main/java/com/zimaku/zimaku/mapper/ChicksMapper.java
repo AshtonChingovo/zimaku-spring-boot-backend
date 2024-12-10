@@ -2,14 +2,40 @@ package com.zimaku.zimaku.mapper;
 
 import com.zimaku.zimaku.domain.production.chicks.dto.ChicksDto;
 import com.zimaku.zimaku.domain.production.chicks.entity.Chicks;
+import com.zimaku.zimaku.domain.util.InstantDateMapperFormatter;
 import com.zimaku.zimaku.mapper.config.IgnoreUnmappedPropertiesConfig;
+import org.mapstruct.AfterMapping;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
+import org.springframework.context.annotation.Configuration;
 
-@Mapper(config = IgnoreUnmappedPropertiesConfig.class)
-public interface ChicksMapper {
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 
-    ChicksDto chicksToChicksDto(Chicks chicks);
+@Configuration
+@Mapper(componentModel = "spring", uses = InstantDateMapperFormatter.class)
+public abstract class ChicksMapper {
 
-    Chicks chicksDtoToChicks(ChicksDto chicksDto);
+    @Mapping(target = "date", source = "chicks.createdDate", dateFormat = "dd-MM-yyyy")
+    public abstract ChicksDto chicksToChicksDto(Chicks chicks);
+
+    public abstract Chicks chicksDtoToChicks(ChicksDto chicksDto);
+
+    @AfterMapping
+    void convertNameToUpperCase(@MappingTarget ChicksDto chicksDto) {
+
+        DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("dd MMM yyyy");
+        LocalDate date = LocalDate.parse(chicksDto.getDate(), inputFormatter);
+
+/*        DateTimeFormatter outputFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        LocalDate inputDate = LocalDate.parse(chicksDto.getDate(), outputFormatter);*/
+
+        long daysDifference = ChronoUnit.DAYS.between(date, LocalDate.now());
+
+        chicksDto.setAge(String.format("%d wks %d days", daysDifference / 7, daysDifference % 7));
+
+    }
 
 }

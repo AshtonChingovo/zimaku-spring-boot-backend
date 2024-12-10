@@ -4,6 +4,7 @@ import com.zimaku.zimaku.domain.production.chicks.dto.ChicksDto;
 import com.zimaku.zimaku.domain.production.chicks.repository.ChicksRepository;
 import com.zimaku.zimaku.domain.production.chicks.service.ChicksService;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,9 +22,15 @@ public class ChicksController {
     }
 
     @PostMapping
-    public ResponseEntity<Object> saveChicks(@Valid @RequestBody ChicksDto chicksDto){
-        chicksService.saveChicks(chicksDto);
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+    public ResponseEntity<ChicksDto> saveChicks(@Valid @RequestBody ChicksDto chicksDto){
+        return new ResponseEntity<>(chicksService.saveChicks(chicksDto), HttpStatus.CREATED);
+    }
+
+    @GetMapping
+    public ResponseEntity<Page<ChicksDto>> getChicks(@RequestParam(defaultValue = "0") Integer pageNumber,
+                                                     @RequestParam(defaultValue = "10") Integer pageSize,
+                                                     @RequestParam(defaultValue = "id") String sortBy){
+        return new ResponseEntity<>(chicksService.getChicks(pageNumber, pageSize, sortBy), HttpStatus.OK);
     }
 
 }

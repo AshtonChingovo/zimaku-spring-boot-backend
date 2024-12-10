@@ -23,5 +23,5 @@ public class Chicks extends Base {
     private Integer males;
     private Integer females;
     private Integer fatalities;
-    private String batchNumber;
+    private String batch;
 }
