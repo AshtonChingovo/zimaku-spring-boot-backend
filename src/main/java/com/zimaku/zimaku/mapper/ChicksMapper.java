@@ -34,7 +34,11 @@ public abstract class ChicksMapper {
 
         long daysDifference = ChronoUnit.DAYS.between(date, LocalDate.now());
 
-        chicksDto.setAge(String.format("%d wks %d days", daysDifference / 7, daysDifference % 7));
+        var ageWeeks = daysDifference / 7;
+        var ageDays = daysDifference % 7;
+        var weeksString = ageWeeks == 1 ? "wk" : "wks";
+
+        chicksDto.setAge(String.format("%d %s %d d", ageWeeks, weeksString, ageDays));
 
     }
 

@@ -28,7 +28,7 @@ public class ChicksController {
 
     @GetMapping
     public ResponseEntity<Page<ChicksDto>> getChicks(@RequestParam(defaultValue = "0") Integer pageNumber,
-                                                     @RequestParam(defaultValue = "10") Integer pageSize,
+                                                     @RequestParam(defaultValue = "5") Integer pageSize,
                                                      @RequestParam(defaultValue = "id") String sortBy){
         return new ResponseEntity<>(chicksService.getChicks(pageNumber, pageSize, sortBy), HttpStatus.OK);
     }

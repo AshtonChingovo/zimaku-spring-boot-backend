@@ -50,6 +50,10 @@ public class RefreshTokenService {
     }
 
     public RefreshToken createRefreshToken(UUID userId){
+
+        // delete any existing refresh token from older logins
+        refreshTokenRepository.deleteRefreshToken(userRepository.findById(userId).orElseThrow().getId());
+
         var refreshToken = RefreshToken
                 .builder()
                 .refreshToken(userId.toString())

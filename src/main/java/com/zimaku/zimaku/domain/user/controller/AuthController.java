@@ -5,7 +5,7 @@ import com.zimaku.zimaku.domain.user.dto.LoginRequestDto;
 import com.zimaku.zimaku.domain.user.dto.RegistrationRequestDto;
 import com.zimaku.zimaku.domain.user.dto.TokenRefreshResponseDto;
 import com.zimaku.zimaku.domain.user.service.RefreshTokenService;
-import com.zimaku.zimaku.domain.user.service.UserService;
+import com.zimaku.zimaku.domain.user.service.AuthService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,22 +18,22 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/v1/auth")
 public class AuthController {
 
-    private final UserService userService;
+    private final AuthService authService;
     private final RefreshTokenService refreshTokenService;
 
-    public AuthController(UserService userService, RefreshTokenService refreshTokenService) {
-        this.userService = userService;
+    public AuthController(AuthService authService, RefreshTokenService refreshTokenService) {
+        this.authService = authService;
         this.refreshTokenService = refreshTokenService;
     }
 
     @PostMapping("/login")
     public ResponseEntity<AuthResponseDto> login(@Valid @RequestBody LoginRequestDto loginRequestDto){
-        return new ResponseEntity<>(userService.login(loginRequestDto), HttpStatus.OK);
+        return new ResponseEntity<>(authService.login(loginRequestDto), HttpStatus.OK);
     }
 
     @PostMapping("/register")
     public ResponseEntity<Object> register(@Valid @RequestBody RegistrationRequestDto registrationRequestDto){
-        userService.register(registrationRequestDto);
+        authService.register(registrationRequestDto);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 

@@ -76,7 +76,6 @@ public class Application {
 
 			userRepository.save(admin);
 			userRepository.save(user);
-
 		};
 	}
 
