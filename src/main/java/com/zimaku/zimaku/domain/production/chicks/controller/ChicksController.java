@@ -33,4 +33,16 @@ public class ChicksController {
         return new ResponseEntity<>(chicksService.getChicks(pageNumber, pageSize, sortBy), HttpStatus.OK);
     }
 
+    @PutMapping
+    public ResponseEntity<ChicksDto> putChicks(
+            @RequestBody ChicksDto chicksDto){
+        return new ResponseEntity<>(chicksService.putChicks(chicksDto), HttpStatus.OK);
+    }
+
+    @DeleteMapping
+    public ResponseEntity deleteChicks(@RequestBody ChicksDto chicksDto){
+        chicksService.deleteChicks(chicksDto);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
+
 }
