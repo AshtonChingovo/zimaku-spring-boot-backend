@@ -1,6 +1,5 @@
 package com.zimaku.zimaku.domain.production.eggs.controller;
 
-import com.zimaku.zimaku.domain.production.chicks.dto.ChicksDto;
 import com.zimaku.zimaku.domain.production.eggs.dto.EggsDto;
 import com.zimaku.zimaku.domain.production.eggs.service.EggsService;
 import jakarta.validation.Valid;
@@ -35,7 +34,7 @@ public class EggsController {
     @PutMapping
     public ResponseEntity putEggs(@RequestBody EggsDto eggsDto){
         eggsService.putEggs(eggsDto);
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 
     @DeleteMapping

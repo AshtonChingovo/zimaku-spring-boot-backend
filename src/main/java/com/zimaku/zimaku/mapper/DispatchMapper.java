@@ -10,4 +10,5 @@ public interface DispatchMapper {
 
     DispatchDto dispatchToDispatchDto(Dispatch dispatch);
 
+    Dispatch dispatchDtoToDispatch(DispatchDto dispatchDto);
 }
