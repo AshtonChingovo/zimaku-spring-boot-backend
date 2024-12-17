@@ -5,21 +5,21 @@ import com.zimaku.zimaku.domain.production.chicks.entity.Chicks;
 import com.zimaku.zimaku.domain.production.chicks.repository.ChicksRepository;
 import com.zimaku.zimaku.exception.ResourceNotFoundException;
 import com.zimaku.zimaku.mapper.ChicksMapper;
-import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 @Service
 public class ChicksService {
 
     private final ChicksRepository chicksRepository;
-    private ChicksMapper chicksMapper;
+    private ChicksMapper mapper;
 
-    public ChicksService(ChicksRepository chicksRepository, ChicksMapper chicksMapper) {
+    public ChicksService(ChicksRepository chicksRepository, ChicksMapper mapper) {
         this.chicksRepository = chicksRepository;
-        this.chicksMapper = chicksMapper;
+        this.mapper = mapper;
     }
 
     public ChicksDto saveChicks(ChicksDto chicksDto){
@@ -32,17 +32,17 @@ public class ChicksService {
                         .build()
         );
 
-        return chicksMapper.chicksToChicksDto(chicks);
+        return mapper.chicksToChicksDto(chicks);
     }
 
     public Page<ChicksDto> getChicks(Integer pageNumber, Integer pageSize, String sortBy){
 
-        Pageable paging = PageRequest.of(pageNumber, pageSize);
+        Pageable paging = PageRequest.of(pageNumber, pageSize, Sort.by(sortBy).descending());
 
-        return chicksRepository.findAll(paging).map(chicksMapper::chicksToChicksDto);
+        return chicksRepository.findAll(paging).map(mapper::chicksToChicksDto);
     }
 
-    public ChicksDto putChicks(ChicksDto chicksDto){
+    public void putChicks(ChicksDto chicksDto){
         Chicks chick = chicksRepository.findById(chicksDto.getId()).orElseThrow(() -> new ResourceNotFoundException("Failed to find resource you want to update"));
 
         chick.setMales(chicksDto.getMales());
@@ -50,7 +50,7 @@ public class ChicksService {
         chick.setFatalities(chicksDto.getFatalities());
         chick.setBatch(chicksDto.getBatch());
 
-        return chicksMapper.chicksToChicksDto(chicksRepository.save(chick));
+        chicksRepository.save(chick);
     }
 
     public void deleteChicks(Integer id){

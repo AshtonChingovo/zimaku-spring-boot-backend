@@ -13,11 +13,9 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("api/v1/chicks")
 public class ChicksController {
 
-    ChicksRepository chicksRepository;
     ChicksService chicksService;
 
     public ChicksController(ChicksRepository chicksRepository, ChicksService chicksService) {
-        this.chicksRepository = chicksRepository;
         this.chicksService = chicksService;
     }
 
@@ -36,7 +34,8 @@ public class ChicksController {
     @PutMapping
     public ResponseEntity<ChicksDto> putChicks(
             @RequestBody ChicksDto chicksDto){
-        return new ResponseEntity<>(chicksService.putChicks(chicksDto), HttpStatus.OK);
+        chicksService.putChicks(chicksDto);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
     @DeleteMapping("/{id}")
