@@ -53,8 +53,8 @@ public class ChicksService {
         return chicksMapper.chicksToChicksDto(chicksRepository.save(chick));
     }
 
-    public void deleteChicks(ChicksDto chicksDto){
-        Chicks chick = chicksRepository.findById(chicksDto.getId()).orElseThrow(() -> new ResourceNotFoundException("Failed to find resource you want to delete"));
+    public void deleteChicks(Integer id){
+        chicksRepository.deleteById(Long.valueOf(id));
     }
 
 }

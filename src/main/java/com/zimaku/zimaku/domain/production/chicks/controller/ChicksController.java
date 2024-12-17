@@ -39,9 +39,9 @@ public class ChicksController {
         return new ResponseEntity<>(chicksService.putChicks(chicksDto), HttpStatus.OK);
     }
 
-    @DeleteMapping
-    public ResponseEntity deleteChicks(@RequestBody ChicksDto chicksDto){
-        chicksService.deleteChicks(chicksDto);
+    @DeleteMapping("/{id}")
+    public ResponseEntity deleteChicks(@PathVariable Integer id){
+        chicksService.deleteChicks(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
