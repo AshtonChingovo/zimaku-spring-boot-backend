@@ -1,6 +1,5 @@
 package com.zimaku.zimaku.domain.production.eggs.service;
 
-import com.zimaku.zimaku.domain.production.chicks.dto.ChicksDto;
 import com.zimaku.zimaku.domain.production.eggs.dto.EggsDto;
 import com.zimaku.zimaku.domain.production.eggs.entity.Eggs;
 import com.zimaku.zimaku.domain.production.eggs.repository.EggsRepository;
@@ -23,15 +22,17 @@ public class EggsService {
         this.mapper = mapper;
     }
 
-    public void saveEggs(EggsDto eggsDto){
-        eggsRepository.save(
+    public EggsDto saveEggs(EggsDto eggsDto){
+        var eggs = eggsRepository.save(
                 Eggs.builder()
-                        .quantity(eggsDto.quantity())
-                        .hatchable(eggsDto.hatchable())
-                        .rejects(eggsDto.rejects())
-                        .batchNumber(eggsDto.batchNumber())
+                        .quantity(eggsDto.getQuantity())
+                        .hatchable(eggsDto.getHatchable())
+                        .rejects(eggsDto.getRejects())
+                        .batchNumber(eggsDto.getBatchNumber())
                         .build()
         );
+
+        return mapper.eggsToEggsDto(eggs);
     }
 
     public Page<EggsDto> getEggs(Integer pageNumber, Integer pageSize, String sortBy) {
@@ -42,12 +43,12 @@ public class EggsService {
     }
 
     public void putEggs(EggsDto eggsDto) {
-        Eggs eggs = eggsRepository.findById(eggsDto.id()).orElseThrow(() -> new ResourceNotFoundException("Failed to find resource you want to update"));
+        Eggs eggs = eggsRepository.findById(eggsDto.getId()).orElseThrow(() -> new ResourceNotFoundException("Failed to find resource you want to update"));
 
-        eggs.setQuantity(eggsDto.quantity());
-        eggs.setHatchable(eggsDto.hatchable());
-        eggs.setRejects(eggsDto.rejects());
-        eggs.setBatchNumber(eggsDto.batchNumber());
+        eggs.setQuantity(eggsDto.getQuantity());
+        eggs.setHatchable(eggsDto.getHatchable());
+        eggs.setRejects(eggsDto.getRejects());
+        eggs.setBatchNumber(eggsDto.getBatchNumber());
 
         eggsRepository.save(eggs);
     }

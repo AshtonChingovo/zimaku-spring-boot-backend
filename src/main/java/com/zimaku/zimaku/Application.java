@@ -1,5 +1,7 @@
 package com.zimaku.zimaku;
 
+import com.zimaku.zimaku.domain.production.eggs.entity.Eggs;
+import com.zimaku.zimaku.domain.production.eggs.repository.EggsRepository;
 import com.zimaku.zimaku.domain.user.entity.Privilege;
 import com.zimaku.zimaku.domain.user.entity.Role;
 import com.zimaku.zimaku.domain.user.entity.User;
@@ -24,6 +26,7 @@ public class Application {
 	@Bean
 	public CommandLineRunner runner(UserRepository userRepository,
 									RoleRepository roleRepository,
+									EggsRepository eggsRepository,
 									PrivilegeRepository privilegeRepository,
 									PasswordEncoder passwordEncoder){
 		return args -> {
@@ -76,6 +79,16 @@ public class Application {
 
 			userRepository.save(admin);
 			userRepository.save(user);
+
+			eggsRepository.save(
+					Eggs.builder()
+							.quantity(10)
+							.hatchable(10)
+							.rejects(10)
+							.batchNumber("AD324")
+							.build());
+
+
 		};
 	}
 

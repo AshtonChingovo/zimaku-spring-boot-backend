@@ -28,7 +28,7 @@ public class ChicksService {
                         .males(chicksDto.getMales())
                         .females(chicksDto.getFemales())
                         .fatalities(chicksDto.getFatalities())
-                        .batch(chicksDto.getBatch())
+                        .batchNumber(chicksDto.getBatchNumber())
                         .build()
         );
 
@@ -48,7 +48,7 @@ public class ChicksService {
         chick.setMales(chicksDto.getMales());
         chick.setFemales(chicksDto.getFemales());
         chick.setFatalities(chicksDto.getFatalities());
-        chick.setBatch(chicksDto.getBatch());
+        chick.setBatchNumber(chicksDto.getBatchNumber());
 
         chicksRepository.save(chick);
     }

@@ -15,30 +15,18 @@ import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 
 @Configuration
-@Mapper(componentModel = "spring", uses = InstantDateMapperFormatter.class)
+@Mapper(componentModel = "spring", config = IgnoreUnmappedPropertiesConfig.class, uses = InstantDateMapperFormatter.class)
 public abstract class ChicksMapper {
 
-    @Mapping(target = "date", source = "chicks.createdDate", dateFormat = "dd-MM-yyyy")
+    @Mapping(target = "date", source = "chicks.createdDate")
     public abstract ChicksDto chicksToChicksDto(Chicks chicks);
 
     public abstract Chicks chicksDtoToChicks(ChicksDto chicksDto);
 
     @AfterMapping
-    void convertNameToUpperCase(@MappingTarget ChicksDto chicksDto) {
+    void convertDateToAge(@MappingTarget ChicksDto chicksDto) {
 
-        DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("dd MMM yyyy");
-        LocalDate date = LocalDate.parse(chicksDto.getDate(), inputFormatter);
-
-/*        DateTimeFormatter outputFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        LocalDate inputDate = LocalDate.parse(chicksDto.getDate(), outputFormatter);*/
-
-        long daysDifference = ChronoUnit.DAYS.between(date, LocalDate.now());
-
-        var ageWeeks = daysDifference / 7;
-        var ageDays = daysDifference % 7;
-        var weeksString = ageWeeks == 1 ? "wk" : "wks";
-
-        chicksDto.setAge(String.format("%d %s %d d", ageWeeks, weeksString, ageDays));
+        chicksDto.setAge(new DateToAgeConverter(chicksDto.getDate()).convert());
 
     }
 

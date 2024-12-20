@@ -32,8 +32,7 @@ public class ChicksController {
     }
 
     @PutMapping
-    public ResponseEntity<ChicksDto> putChicks(
-            @RequestBody ChicksDto chicksDto){
+    public ResponseEntity<ChicksDto> putChicks(@Valid @RequestBody ChicksDto chicksDto){
         chicksService.putChicks(chicksDto);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }

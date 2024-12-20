@@ -5,7 +5,7 @@ import com.zimaku.zimaku.domain.production.dispatch.entity.Dispatch;
 import com.zimaku.zimaku.mapper.config.IgnoreUnmappedPropertiesConfig;
 import org.mapstruct.Mapper;
 
-@Mapper(config = IgnoreUnmappedPropertiesConfig.class)
+@Mapper(componentModel = "spring", config = IgnoreUnmappedPropertiesConfig.class)
 public interface DispatchMapper {
 
     DispatchDto dispatchToDispatchDto(Dispatch dispatch);

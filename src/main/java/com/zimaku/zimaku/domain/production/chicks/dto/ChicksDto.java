@@ -24,7 +24,7 @@ public class ChicksDto {
         Integer fatalities;
         @NotNull(message = "Batch number should be provided")
         @NotEmpty(message = "Batch number cannot be empty")
-        String batch;
+        String batchNumber;
         String age;
         String date;
 }

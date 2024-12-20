@@ -19,9 +19,8 @@ public class EggsController {
     }
 
     @PostMapping
-    public ResponseEntity<Object> saveEggs(@Valid @RequestBody EggsDto eggsDto){
-        eggsService.saveEggs(eggsDto);
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+    public ResponseEntity<EggsDto> saveEggs(@Valid @RequestBody EggsDto eggsDto){
+        return new ResponseEntity<>(eggsService.saveEggs(eggsDto), HttpStatus.CREATED);
     }
 
     @GetMapping
@@ -32,12 +31,12 @@ public class EggsController {
     }
 
     @PutMapping
-    public ResponseEntity putEggs(@RequestBody EggsDto eggsDto){
+    public ResponseEntity putEggs(@Valid @RequestBody EggsDto eggsDto){
         eggsService.putEggs(eggsDto);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
-    @DeleteMapping
+    @DeleteMapping("/{id}")
     public ResponseEntity deleteEggs(@PathVariable Integer id){
         eggsService.deleteEggs(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
