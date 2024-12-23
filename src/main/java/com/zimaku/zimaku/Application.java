@@ -1,5 +1,7 @@
 package com.zimaku.zimaku;
 
+import com.zimaku.zimaku.domain.production.dispatch.entity.Dispatch;
+import com.zimaku.zimaku.domain.production.dispatch.repository.DispatchRepository;
 import com.zimaku.zimaku.domain.production.eggs.entity.Eggs;
 import com.zimaku.zimaku.domain.production.eggs.repository.EggsRepository;
 import com.zimaku.zimaku.domain.user.entity.Privilege;
@@ -28,6 +30,7 @@ public class Application {
 									RoleRepository roleRepository,
 									EggsRepository eggsRepository,
 									PrivilegeRepository privilegeRepository,
+									DispatchRepository dispatchRepository,
 									PasswordEncoder passwordEncoder){
 		return args -> {
 
@@ -88,6 +91,13 @@ public class Application {
 							.batchNumber("AD324")
 							.build());
 
+			dispatchRepository.save(
+					Dispatch.builder()
+							.quantity(7)
+							.batchNumber("TY33")
+							.totalStockReceived(7)
+							.dateStockReceived("23 Dec 2024")
+							.build());
 
 		};
 	}

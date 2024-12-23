@@ -9,7 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("api/v1/dispatch")
+@RequestMapping("api/v1/dispatches")
 public class DispatchController {
 
     private DispatchService dispatchService;
@@ -19,7 +19,7 @@ public class DispatchController {
     }
 
     @PostMapping
-    public ResponseEntity<Object> saveDispatch(DispatchDto dispatchDto){
+    public ResponseEntity<Object> saveDispatch(@RequestBody DispatchDto dispatchDto){
         dispatchService.saveDispatch(dispatchDto);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }

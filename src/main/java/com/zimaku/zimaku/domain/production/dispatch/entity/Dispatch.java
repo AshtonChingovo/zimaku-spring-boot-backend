@@ -20,6 +20,8 @@ public class Dispatch extends Base {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private Integer totalDispatched;
+    private Integer quantity;
     private String batchNumber;
+    private Integer totalStockReceived;
+    private String dateStockReceived;
 }

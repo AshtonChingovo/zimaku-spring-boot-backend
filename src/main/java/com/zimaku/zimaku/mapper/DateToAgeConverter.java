@@ -12,7 +12,19 @@ public class DateToAgeConverter {
         this.date = date;
     }
 
+    // age in days
     public String convert(){
+
+        DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("dd MMM yyyy");
+        LocalDate date = LocalDate.parse(this.date, inputFormatter);
+
+        long daysDifference = ChronoUnit.DAYS.between(date, LocalDate.now());
+
+        return String.valueOf(daysDifference);
+    }
+
+    // age in weeks & days
+/*    public String convert(){
 
         DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("dd MMM yyyy");
         LocalDate date = LocalDate.parse(this.date, inputFormatter);
@@ -24,6 +36,5 @@ public class DateToAgeConverter {
         var weeksString = ageWeeks == 1 ? "wk" : "wks";
 
         return String.format("%d %s %d d", ageWeeks, weeksString, ageDays);
-    }
-
+    }*/
 }

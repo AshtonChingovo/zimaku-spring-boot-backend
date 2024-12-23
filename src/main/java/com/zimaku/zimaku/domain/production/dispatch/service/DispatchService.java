@@ -8,7 +8,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -23,12 +22,7 @@ public class DispatchService {
     }
 
     public void saveDispatch(DispatchDto dispatchDto){
-        dispatchRepository.save(
-                Dispatch.builder()
-                        .totalDispatched(dispatchDto.totalDispatched())
-                        .batchNumber(dispatchDto.batchNumber())
-                        .build()
-        );
+        dispatchRepository.save(mapper.dispatchDtoToDispatch(dispatchDto));
     }
 
     public Page<DispatchDto> getDispatches(Integer pageNumber, Integer pageSize, String sortBy) {
