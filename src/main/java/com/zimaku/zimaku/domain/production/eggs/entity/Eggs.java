@@ -24,4 +24,5 @@ public class Eggs extends Base {
     private Integer hatchable;
     private Integer rejects;
     private String batchNumber;
+    private boolean isDispatched;
 }

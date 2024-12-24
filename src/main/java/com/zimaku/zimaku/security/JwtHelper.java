@@ -20,14 +20,14 @@ import java.util.Date;
 public class JwtHelper {
 
     private static final Key SECRET_KEY = Keys.secretKeyFor(SignatureAlgorithm.HS256);
-    private static final int MINUTES = 60;
+    private static final int HOURS = 1;
 
     public String generateToken(String username){
         var now = Instant.now();
         return Jwts.builder()
                 .subject(username)
                 .issuedAt(Date.from(now))
-                .expiration(Date.from(now.plus(MINUTES, ChronoUnit.MINUTES)))
+                .expiration(Date.from(now.plus(HOURS, ChronoUnit.HOURS)))
                 .signWith(SignatureAlgorithm.HS256, SECRET_KEY)
                 .compact();
     }

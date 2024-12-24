@@ -42,6 +42,13 @@ public class EggsService {
         return eggsRepository.findAll(paging).map(mapper::eggsToEggsDto);
     }
 
+    public Page<EggsDto> getEggsNotDispatched(Integer pageNumber, Integer pageSize, String sortBy) {
+
+        Pageable paging = PageRequest.of(pageNumber, pageSize, Sort.by(sortBy).descending());
+
+        return eggsRepository.findEggsNotDispatched(paging).map(mapper::eggsToEggsDto);
+    }
+
     public void putEggs(EggsDto eggsDto) {
         Eggs eggs = eggsRepository.findById(eggsDto.getId()).orElseThrow(() -> new ResourceNotFoundException("Failed to find resource you want to update"));
 

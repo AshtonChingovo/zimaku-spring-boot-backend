@@ -26,4 +26,5 @@ public class EggsDto{
          String batchNumber;
          String age;
          String date;
+         boolean isDispatched;
 }

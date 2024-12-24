@@ -85,10 +85,11 @@ public class Application {
 
 			eggsRepository.save(
 					Eggs.builder()
-							.quantity(10)
-							.hatchable(10)
-							.rejects(10)
+							.quantity(20)
+							.hatchable(20)
+							.rejects(20)
 							.batchNumber("AD324")
+							.isDispatched(false)
 							.build());
 
 			dispatchRepository.save(

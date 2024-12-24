@@ -20,7 +20,7 @@ public class DateToAgeConverter {
 
         long daysDifference = ChronoUnit.DAYS.between(date, LocalDate.now());
 
-        return String.valueOf(daysDifference);
+        return daysDifference + " days";
     }
 
     // age in weeks & days

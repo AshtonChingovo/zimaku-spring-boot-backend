@@ -13,4 +13,5 @@ public class DispatchDto{
     Integer totalStockReceived;
     String dateStockReceived;
     String ageOnDispatch;
+    Integer eggsId;
 }
