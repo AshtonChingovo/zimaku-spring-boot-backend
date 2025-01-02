@@ -19,7 +19,7 @@ public abstract class EggsMapper {
 
     @AfterMapping
     void convertDateToDaysAndWeeks(@MappingTarget EggsDto eggsDto) {
-        eggsDto.setAge(new DateToAgeConverter(eggsDto.getDate()).convert());
+        eggsDto.setAge(new DateFormatConverter(eggsDto.getDate()).convert());
     }
 
 }

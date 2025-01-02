@@ -4,11 +4,11 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 
-public class DateToAgeConverter {
+public class DateFormatConverter {
 
     private String date;
 
-    public DateToAgeConverter(String date) {
+    public DateFormatConverter(String date) {
         this.date = date;
     }
 

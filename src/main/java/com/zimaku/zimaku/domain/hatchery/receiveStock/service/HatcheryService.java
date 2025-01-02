@@ -4,7 +4,6 @@ import com.zimaku.zimaku.domain.hatchery.receiveStock.dto.HatcheryStockDto;
 import com.zimaku.zimaku.domain.hatchery.receiveStock.entity.HatcheryStock;
 import com.zimaku.zimaku.domain.hatchery.receiveStock.repository.HatcheryRepository;
 import com.zimaku.zimaku.mapper.hatchery.HatcheryMapper;
-import jakarta.transaction.Transactional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -38,8 +37,8 @@ public class HatcheryService {
         return hatcheryRepository.findAll(page).map(mapper::hatcheryStockToHatcheryDto);
     }
 
-    public void putHatchery(Long id, Integer quantity){
-        hatcheryRepository.updateHatcheryStockQuantity(id, quantity);
+    public void putHatcheryStock(Integer quantity, Long id){
+        hatcheryRepository.updateHatcheryStockQuantity(quantity, id);
     }
 
 }

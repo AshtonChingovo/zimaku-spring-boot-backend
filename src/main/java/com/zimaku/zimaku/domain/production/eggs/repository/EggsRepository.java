@@ -17,7 +17,7 @@ public interface EggsRepository extends PagingAndSortingRepository<Eggs, Long>, 
     Page<Eggs> findEggsNotDispatched(Pageable pageable);
 
     @Modifying
-    @Query("UPDATE Eggs SET isDispatched = true WHERE id = :id")
+    @Query(value = "UPDATE Eggs SET isDispatched = true WHERE id = :id")
     void updateDispatchStatus(@Param("id") Integer id);
 
 }

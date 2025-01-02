@@ -19,6 +19,6 @@ public abstract class DispatchMapper {
 
     @AfterMapping
     void convertDateToAge(@MappingTarget DispatchDto dispatchDto) {
-        dispatchDto.setAgeOnDispatch(new DateToAgeConverter(dispatchDto.getDateStockReceived()).convert());
+        dispatchDto.setAgeOnDispatch(new DateFormatConverter(dispatchDto.getDateStockReceived()).convert());
     }
 }

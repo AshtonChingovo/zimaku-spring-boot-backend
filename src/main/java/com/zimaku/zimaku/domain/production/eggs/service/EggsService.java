@@ -36,9 +36,7 @@ public class EggsService {
     }
 
     public Page<EggsDto> getEggs(Integer pageNumber, Integer pageSize, String sortBy) {
-
         Pageable paging = PageRequest.of(pageNumber, pageSize, Sort.by(sortBy).descending());
-
         return eggsRepository.findAll(paging).map(mapper::eggsToEggsDto);
     }
 

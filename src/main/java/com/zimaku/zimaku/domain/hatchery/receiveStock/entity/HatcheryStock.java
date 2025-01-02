@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 
 @Data
 @Builder
-@Entity(name = "hatchery_stock")
+@Entity
 @AllArgsConstructor
 @NoArgsConstructor
 public class HatcheryStock extends Base {

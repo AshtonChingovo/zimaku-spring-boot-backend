@@ -21,7 +21,7 @@ public abstract class ChicksMapper {
 
     @AfterMapping
     void convertDateToAge(@MappingTarget ChicksDto chicksDto) {
-        chicksDto.setAge(new DateToAgeConverter(chicksDto.getDate()).convert());
+        chicksDto.setAge(new DateFormatConverter(chicksDto.getDate()).convert());
     }
 
 }

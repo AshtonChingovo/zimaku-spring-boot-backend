@@ -7,12 +7,14 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 @Repository
 public interface HatcheryRepository extends PagingAndSortingRepository<HatcheryStock, Long>, JpaRepository<HatcheryStock, Long> {
 
-    @Modifying
-    @Query("UPDATE hatchery_stock SET quantity = :quantity WHERE id = :id")
-    void updateHatcheryStockQuantity(@Param("id") Long id, @Param("quantity") Integer quantity);
+    @Transactional
+    @Modifying(clearAutomatically = true)
+    @Query(value = "UPDATE HatcheryStock SET quantity = :quantity WHERE id = :id")
+    void updateHatcheryStockQuantity(@Param("quantity") Integer quantity, @Param("id") Long id);
 
 }
