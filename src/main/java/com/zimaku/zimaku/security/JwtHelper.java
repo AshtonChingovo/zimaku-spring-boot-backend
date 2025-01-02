@@ -1,6 +1,5 @@
 package com.zimaku.zimaku.security;
 
-
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
@@ -20,19 +19,19 @@ import java.util.Date;
 public class JwtHelper {
 
     private static final Key SECRET_KEY = Keys.secretKeyFor(SignatureAlgorithm.HS256);
-    private static final int HOURS = 1;
+    private static final int SECONDS = 3;
 
     public String generateToken(String username){
         var now = Instant.now();
         return Jwts.builder()
                 .subject(username)
                 .issuedAt(Date.from(now))
-                .expiration(Date.from(now.plus(HOURS, ChronoUnit.HOURS)))
+                .expiration(Date.from(now.plus(SECONDS, ChronoUnit.HOURS)))
                 .signWith(SignatureAlgorithm.HS256, SECRET_KEY)
                 .compact();
     }
 
-    private static Claims getTokenBody(String token) {
+    private static Claims getTokenBody(String token) throws AccessDeniedException {
         try {
             return Jwts
                     .parser()
@@ -40,21 +39,22 @@ public class JwtHelper {
                     .build()
                     .parseSignedClaims(token)
                     .getPayload();
-        } catch (SignatureException | ExpiredJwtException e) { // Invalid signature or expired token
+        } catch (SignatureException | ExpiredJwtException e) {
+            // Invalid signature or expired token
             throw new AccessDeniedException("Access denied: " + e.getMessage());
         }
     }
 
-    public Boolean validateToken(String token, UserDetails userDetails) {
+    public Boolean validateToken(String token, UserDetails userDetails) throws AccessDeniedException {
         final String username = extractUsername(token);
         return username.equals(userDetails.getUsername()) && !isTokenExpired(token);
     }
 
-    public String extractUsername(String token) {
+    public String extractUsername(String token) throws AccessDeniedException {
         return getTokenBody(token).getSubject();
     }
 
-    private boolean isTokenExpired(String token) {
+    private boolean isTokenExpired(String token) throws AccessDeniedException {
         Claims claims = getTokenBody(token);
         return claims.getExpiration().before(new Date());
     }

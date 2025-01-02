@@ -4,7 +4,7 @@ import com.zimaku.zimaku.domain.production.chicks.dto.ChicksDto;
 import com.zimaku.zimaku.domain.production.chicks.entity.Chicks;
 import com.zimaku.zimaku.domain.production.chicks.repository.ChicksRepository;
 import com.zimaku.zimaku.exception.ResourceNotFoundException;
-import com.zimaku.zimaku.mapper.ChicksMapper;
+import com.zimaku.zimaku.mapper.production.ChicksMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;

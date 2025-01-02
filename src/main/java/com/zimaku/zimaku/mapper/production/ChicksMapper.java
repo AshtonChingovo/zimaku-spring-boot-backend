@@ -1,4 +1,4 @@
-package com.zimaku.zimaku.mapper;
+package com.zimaku.zimaku.mapper.production;
 
 import com.zimaku.zimaku.domain.production.chicks.dto.ChicksDto;
 import com.zimaku.zimaku.domain.production.chicks.entity.Chicks;
@@ -9,10 +9,6 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 import org.springframework.context.annotation.Configuration;
-
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.time.temporal.ChronoUnit;
 
 @Configuration
 @Mapper(componentModel = "spring", config = IgnoreUnmappedPropertiesConfig.class, uses = InstantDateMapperFormatter.class)
@@ -25,9 +21,7 @@ public abstract class ChicksMapper {
 
     @AfterMapping
     void convertDateToAge(@MappingTarget ChicksDto chicksDto) {
-
         chicksDto.setAge(new DateToAgeConverter(chicksDto.getDate()).convert());
-
     }
 
 }

@@ -4,6 +4,7 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -12,7 +13,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
-import java.nio.file.AccessDeniedException;
 
 @Component
 public class JwtAuthFilter extends OncePerRequestFilter {
@@ -49,9 +49,11 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
             filterChain.doFilter(request, response);
 
-
-        } catch (AccessDeniedException e){
-
+        } catch (Exception e){
+            if(e instanceof AccessDeniedException){
+                System.out.println("ACCESS DENIED EXCEPTION" + e);
+                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            }
         }
     }
 

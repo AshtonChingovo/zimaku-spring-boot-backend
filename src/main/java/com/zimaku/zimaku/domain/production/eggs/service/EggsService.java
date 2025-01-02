@@ -4,7 +4,7 @@ import com.zimaku.zimaku.domain.production.eggs.dto.EggsDto;
 import com.zimaku.zimaku.domain.production.eggs.entity.Eggs;
 import com.zimaku.zimaku.domain.production.eggs.repository.EggsRepository;
 import com.zimaku.zimaku.exception.ResourceNotFoundException;
-import com.zimaku.zimaku.mapper.EggsMapper;
+import com.zimaku.zimaku.mapper.production.EggsMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -43,9 +43,7 @@ public class EggsService {
     }
 
     public Page<EggsDto> getEggsNotDispatched(Integer pageNumber, Integer pageSize, String sortBy) {
-
         Pageable paging = PageRequest.of(pageNumber, pageSize, Sort.by(sortBy).descending());
-
         return eggsRepository.findEggsNotDispatched(paging).map(mapper::eggsToEggsDto);
     }
 

@@ -1,4 +1,4 @@
-package com.zimaku.zimaku.mapper;
+package com.zimaku.zimaku.mapper.production;
 
 import com.zimaku.zimaku.domain.production.dispatch.dto.DispatchDto;
 import com.zimaku.zimaku.domain.production.dispatch.entity.Dispatch;

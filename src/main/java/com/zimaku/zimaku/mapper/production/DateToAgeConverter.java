@@ -1,4 +1,4 @@
-package com.zimaku.zimaku.mapper;
+package com.zimaku.zimaku.mapper.production;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;

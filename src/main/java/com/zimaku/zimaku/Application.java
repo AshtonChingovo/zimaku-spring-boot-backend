@@ -1,8 +1,6 @@
 package com.zimaku.zimaku;
 
-import com.zimaku.zimaku.domain.production.dispatch.entity.Dispatch;
 import com.zimaku.zimaku.domain.production.dispatch.repository.DispatchRepository;
-import com.zimaku.zimaku.domain.production.eggs.entity.Eggs;
 import com.zimaku.zimaku.domain.production.eggs.repository.EggsRepository;
 import com.zimaku.zimaku.domain.user.entity.Privilege;
 import com.zimaku.zimaku.domain.user.entity.Role;
@@ -83,7 +81,7 @@ public class Application {
 			userRepository.save(admin);
 			userRepository.save(user);
 
-			eggsRepository.save(
+/*			eggsRepository.save(
 					Eggs.builder()
 							.quantity(20)
 							.hatchable(20)
@@ -98,7 +96,7 @@ public class Application {
 							.batchNumber("TY33")
 							.totalStockReceived(7)
 							.dateStockReceived("23 Dec 2024")
-							.build());
+							.build());*/
 
 		};
 	}
