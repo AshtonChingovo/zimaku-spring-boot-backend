@@ -10,7 +10,7 @@ public class HatcheryStockDto {
     Long id;
     String date;
     @NotNull(message = "Quantity received should be provided")
-    Integer quantity;
+    Integer breakages;
     @NotNull(message = "Batch Number should be provided")
     String batchNumber;
     @NotNull(message = "Total dispatched should be provided")

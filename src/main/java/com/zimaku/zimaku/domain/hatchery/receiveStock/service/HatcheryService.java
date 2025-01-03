@@ -24,7 +24,7 @@ public class HatcheryService {
     public void saveHatcheryStock(HatcheryStockDto hatcheryStockDto){
         hatcheryRepository.save(
                 HatcheryStock.builder()
-                        .quantity(hatcheryStockDto.getQuantity())
+                        .breakages(hatcheryStockDto.getBreakages())
                         .batchNumber(hatcheryStockDto.getBatchNumber())
                         .totalDispatched(hatcheryStockDto.getTotalDispatched())
                         .eggsId(hatcheryStockDto.getEggsId())
@@ -37,8 +37,8 @@ public class HatcheryService {
         return hatcheryRepository.findAll(page).map(mapper::hatcheryStockToHatcheryDto);
     }
 
-    public void putHatcheryStock(Integer quantity, Long id){
-        hatcheryRepository.updateHatcheryStockQuantity(quantity, id);
+    public void putHatcheryStock(Integer breakages, Long id){
+        hatcheryRepository.updateHatcheryStockQuantity(breakages, id);
     }
 
 }

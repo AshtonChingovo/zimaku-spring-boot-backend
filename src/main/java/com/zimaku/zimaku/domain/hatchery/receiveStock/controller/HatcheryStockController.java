@@ -31,7 +31,7 @@ class HatcheryStockController {
 
     @PutMapping
     public ResponseEntity<Object> putHatcheryStock(@Valid @RequestBody HatcheryStockDto hatcheryStockDto){
-        hatcheryService.putHatcheryStock(hatcheryStockDto.getQuantity(), hatcheryStockDto.getId());
+        hatcheryService.putHatcheryStock(hatcheryStockDto.getBreakages(), hatcheryStockDto.getId());
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 

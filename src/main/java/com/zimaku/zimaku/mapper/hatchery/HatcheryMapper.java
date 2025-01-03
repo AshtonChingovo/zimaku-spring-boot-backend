@@ -21,7 +21,7 @@ public abstract class HatcheryMapper {
 
     @AfterMapping
     void addDifference(@MappingTarget HatcheryStockDto hatcheryStockDto) {
-        hatcheryStockDto.setDifference(hatcheryStockDto.getQuantity() - hatcheryStockDto.getTotalDispatched());
+        hatcheryStockDto.setDifference(hatcheryStockDto.getBreakages() - hatcheryStockDto.getTotalDispatched());
     }
 
 }

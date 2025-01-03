@@ -14,7 +14,7 @@ public interface HatcheryRepository extends PagingAndSortingRepository<HatcheryS
 
     @Transactional
     @Modifying(clearAutomatically = true)
-    @Query(value = "UPDATE HatcheryStock SET quantity = :quantity WHERE id = :id")
-    void updateHatcheryStockQuantity(@Param("quantity") Integer quantity, @Param("id") Long id);
+    @Query(value = "UPDATE HatcheryStock SET breakages = :breakages WHERE id = :id")
+    void updateHatcheryStockQuantity(@Param("breakages") Integer breakages, @Param("id") Long id);
 
 }
