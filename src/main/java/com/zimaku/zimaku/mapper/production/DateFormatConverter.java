@@ -22,7 +22,7 @@ public class DateFormatConverter {
         // i.e. all stock starts at one day old not zero
         long daysDifference = ChronoUnit.DAYS.between(date, LocalDate.now()) + 1L;
 
-        return daysDifference + " days";
+        return daysDifference + (daysDifference == 1 ? " day" : " days");
     }
 
     // age in weeks & days

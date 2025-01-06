@@ -5,14 +5,21 @@ import com.zimaku.zimaku.domain.production.chicks.entity.Chicks;
 import com.zimaku.zimaku.domain.production.chicks.repository.ChicksRepository;
 import com.zimaku.zimaku.exception.ResourceNotFoundException;
 import com.zimaku.zimaku.mapper.production.ChicksMapper;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+
+@Slf4j
 @Service
 public class ChicksService {
+
+    private static final Logger logger = LogManager.getLogger(ChicksService.class);
 
     private final ChicksRepository chicksRepository;
     private ChicksMapper mapper;
@@ -42,14 +49,24 @@ public class ChicksService {
         return chicksRepository.findAll(paging).map(mapper::chicksToChicksDto);
     }
 
+    public ChicksDto saveAverageWeight(ChicksDto chicksDto){
+        Chicks chick = chicksRepository.findById(chicksDto.getId()).orElseThrow(() -> new ResourceNotFoundException("Chick with ID " + chicksDto.getId() + " not found for average weight update."));
+        chick.setAverageWeights(chicksDto.getAverageWeights());
+        try{
+            mapper.chicksToChicksDto(chicksRepository.save(chick));
+        }
+        catch (Exception e){
+            logger.error(e.toString());
+        }
+        return null;
+    }
+
     public void putChicks(ChicksDto chicksDto){
         Chicks chick = chicksRepository.findById(chicksDto.getId()).orElseThrow(() -> new ResourceNotFoundException("Failed to find resource you want to update"));
-
         chick.setMales(chicksDto.getMales());
         chick.setFemales(chicksDto.getFemales());
         chick.setFatalities(chicksDto.getFatalities());
         chick.setBatchNumber(chicksDto.getBatchNumber());
-
         chicksRepository.save(chick);
     }
 

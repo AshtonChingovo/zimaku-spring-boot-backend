@@ -9,6 +9,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+/**
+ * Controller class for managing operations related to chicks.
+ * This class provides RESTful endpoints to handle CRUD operations
+ * and other operations like saving average weights for chicks.
+ */
 @RestController
 @RequestMapping("api/v1/chicks")
 public class ChicksController {
@@ -22,6 +27,11 @@ public class ChicksController {
     @PostMapping
     public ResponseEntity<ChicksDto> saveChicks(@Valid @RequestBody ChicksDto chicksDto){
         return new ResponseEntity<>(chicksService.saveChicks(chicksDto), HttpStatus.CREATED);
+    }
+
+    @PostMapping(path = "/average_weights")
+    public ResponseEntity<ChicksDto> saveChickAverageWeight(@Valid @RequestBody ChicksDto chicksDto){
+        return new ResponseEntity<>(chicksService.saveAverageWeight(chicksDto), HttpStatus.OK);
     }
 
     @GetMapping
@@ -38,7 +48,7 @@ public class ChicksController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity deleteChicks(@PathVariable Integer id){
+    public ResponseEntity<Object> deleteChicks(@PathVariable Integer id){
         chicksService.deleteChicks(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }

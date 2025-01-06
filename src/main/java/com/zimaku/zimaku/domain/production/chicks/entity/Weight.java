@@ -1,29 +1,24 @@
 package com.zimaku.zimaku.domain.production.chicks.entity;
 
 import com.zimaku.zimaku.domain.util.Base;
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.util.Set;
 
 @Data
 @Builder
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-public class Chicks extends Base {
-
+public class Weight extends Base {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private Integer males;
-    private Integer females;
-    private Integer fatalities;
-    private String batchNumber;
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "chicks_id")
-    private Set<Weight> averageWeights;
+    private Integer week;
+    private Double averageWeight;
 }

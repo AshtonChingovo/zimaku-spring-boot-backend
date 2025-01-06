@@ -1,5 +1,6 @@
 package com.zimaku.zimaku.exception.handler;
 
+import com.zimaku.zimaku.exception.ResourceNotFoundException;
 import com.zimaku.zimaku.exception.TokenNotFoundException;
 import com.zimaku.zimaku.exception.UsernameAlreadyExistsException;
 import com.zimaku.zimaku.exception.model.ErrorDetails;
@@ -44,6 +45,11 @@ public class ExceptionHandlerController extends ResponseEntityExceptionHandler {
     @ExceptionHandler(AccessDeniedException.class)
     public ResponseEntity<Object> handleAccessDeniedException(AccessDeniedException ex, @NonNull WebRequest webRequest){
         return errorDetailsResponse(ex, ex.getMessage(), Collections.singletonList(ex.getMessage()), webRequest, UNAUTHORIZED);
+    }
+
+    @ExceptionHandler(ResourceNotFoundException.class)
+    public ResponseEntity<Object> handleResourceNotFoundException(ResourceNotFoundException ex, @NonNull WebRequest webRequest){
+        return errorDetailsResponse(ex, ex.getMessage(), Collections.singletonList(ex.getMessage()), webRequest, HttpStatus.NOT_FOUND);
     }
 
     @Override
