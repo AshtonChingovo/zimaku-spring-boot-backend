@@ -1,6 +1,6 @@
 package com.zimaku.zimaku.mapper.production;
 
-import com.zimaku.zimaku.domain.production.eggs.dto.EggsDto;
+import com.zimaku.zimaku.domain.production.eggs.dto.EggsStockDto;
 import com.zimaku.zimaku.domain.production.eggs.entity.EggsStock;
 import com.zimaku.zimaku.domain.util.InstantDateMapperFormatter;
 import com.zimaku.zimaku.mapper.config.IgnoreUnmappedPropertiesConfig;
@@ -13,13 +13,13 @@ import org.mapstruct.MappingTarget;
 public abstract class EggsMapper {
 
     @Mapping(target = "date", source = "eggsStock.createdDate")
-    public abstract EggsDto eggsToEggsDto(EggsStock eggsStock);
+    public abstract EggsStockDto eggsToEggsDto(EggsStock eggsStock);
 
-    public abstract EggsStock eggsDtoToEggs(EggsDto eggsDto);
+    public abstract EggsStock eggsDtoToEggs(EggsStockDto eggsStockDto);
 
     @AfterMapping
-    void convertDateToDaysAndWeeks(@MappingTarget EggsDto eggsDto) {
-        eggsDto.setAge(new DateFormatConverter(eggsDto.getDate()).convert());
+    void convertDateToDaysAndWeeks(@MappingTarget EggsStockDto eggsStockDto) {
+        eggsStockDto.setAge(new DateFormatConverter(eggsStockDto.getDate()).convert());
     }
 
 }

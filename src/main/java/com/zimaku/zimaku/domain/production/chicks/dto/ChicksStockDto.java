@@ -1,6 +1,6 @@
 package com.zimaku.zimaku.domain.production.chicks.dto;
 
-import com.zimaku.zimaku.domain.production.chicks.entity.Weight;
+import com.zimaku.zimaku.domain.production.chicks.entity.AverageWeight;
 import jakarta.validation.constraints.Digits;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -12,7 +12,7 @@ import java.util.Set;
 
 @Data
 @Builder
-public class ChicksDto {
+public class ChicksStockDto {
         private Long id;
         @NotNull
         @Positive(message = "Number of males should always be positive")
@@ -30,5 +30,5 @@ public class ChicksDto {
         private String batchNumber;
         private String age;
         private String date;
-        private Set<Weight> averageWeights;
+        private Set<AverageWeight> averageWeight;
 }

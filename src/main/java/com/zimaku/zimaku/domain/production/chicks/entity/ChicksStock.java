@@ -14,7 +14,7 @@ import java.util.Set;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-public class Chicks extends Base {
+public class ChicksStock extends Base {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -25,5 +25,5 @@ public class Chicks extends Base {
     private String batchNumber;
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "chicks_id")
-    private Set<Weight> averageWeights;
+    private Set<AverageWeight> averageWeight;
 }

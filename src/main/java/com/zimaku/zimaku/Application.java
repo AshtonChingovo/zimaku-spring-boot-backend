@@ -1,7 +1,7 @@
 package com.zimaku.zimaku;
 
 import com.zimaku.zimaku.domain.production.dispatch.repository.DispatchRepository;
-import com.zimaku.zimaku.domain.production.eggs.repository.EggsRepository;
+import com.zimaku.zimaku.domain.production.eggs.repository.EggsStockRepository;
 import com.zimaku.zimaku.domain.user.entity.Privilege;
 import com.zimaku.zimaku.domain.user.entity.Role;
 import com.zimaku.zimaku.domain.user.entity.User;
@@ -26,7 +26,7 @@ public class Application {
 	@Bean
 	public CommandLineRunner runner(UserRepository userRepository,
 									RoleRepository roleRepository,
-									EggsRepository eggsRepository,
+									EggsStockRepository eggsStockRepository,
 									PrivilegeRepository privilegeRepository,
 									DispatchRepository dispatchRepository,
 									PasswordEncoder passwordEncoder){

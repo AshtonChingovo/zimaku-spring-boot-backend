@@ -4,13 +4,10 @@ import jakarta.validation.constraints.Digits;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
-import lombok.Builder;
 import lombok.Data;
 
-import java.util.Date;
-
 @Data
-public class EggsDto{
+public class EggsStockDto {
          Long id;
          @NotNull(message = "Quantity should be provided")
          @Positive(message = "Quantity should always be larger than zero")

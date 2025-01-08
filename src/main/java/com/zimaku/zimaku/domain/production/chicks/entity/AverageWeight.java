@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-public class Weight extends Base {
+public class AverageWeight extends Base {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
