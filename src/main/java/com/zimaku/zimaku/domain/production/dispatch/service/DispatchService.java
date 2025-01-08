@@ -1,5 +1,6 @@
 package com.zimaku.zimaku.domain.production.dispatch.service;
 
+import com.zimaku.zimaku.Application;
 import com.zimaku.zimaku.domain.production.chicks.service.ChicksService;
 import com.zimaku.zimaku.domain.production.dispatch.dto.DispatchDto;
 import com.zimaku.zimaku.domain.production.dispatch.repository.DispatchRepository;
@@ -17,8 +18,6 @@ import org.springframework.stereotype.Service;
 @Service
 public class DispatchService {
 
-    private static final Logger logger = LogManager.getLogger(DispatchService.class);
-
     private DispatchRepository dispatchRepository;
     private EggsRepository eggsRepository;
     private DispatchMapper mapper;
@@ -31,18 +30,13 @@ public class DispatchService {
 
     @Transactional
     public void saveDispatch(DispatchDto dispatchDto){
-        try{
-            var eggsStock = eggsRepository.findById(dispatchDto.getEggsStock().getId()).orElseThrow();
-            eggsStock.setDispatched(true);
-            eggsRepository.save(eggsStock);
+        var eggsStock = eggsRepository.findById(dispatchDto.getEggsStock().getId()).orElseThrow();
+        eggsStock.setDispatched(true);
+        eggsRepository.save(eggsStock);
 
-            var dispatch = mapper.dispatchDtoToDispatch(dispatchDto);
-            dispatch.setEggsStock(eggsStock);
-            dispatchRepository.save(mapper.dispatchDtoToDispatch(dispatchDto));
-        }
-        catch (Exception e){
-            logger.error("Failed to save dispatch", e);
-        }
+        var dispatch = mapper.dispatchDtoToDispatch(dispatchDto);
+        dispatch.setEggsStock(eggsStock);
+        dispatchRepository.save(dispatch);
     }
 
     public Page<DispatchDto> getDispatches(Integer pageNumber, Integer pageSize, String sortBy) {

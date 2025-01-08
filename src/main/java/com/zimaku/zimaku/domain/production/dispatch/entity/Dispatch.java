@@ -22,8 +22,8 @@ public class Dispatch extends Base {
     private String batchNumber;
     private Integer totalStockReceived;
     private String dateStockReceived;
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "eggs_id", referencedColumnName = "id")
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "eggs_stock_id", referencedColumnName = "id")
     private EggsStock eggsStock;
 
 }

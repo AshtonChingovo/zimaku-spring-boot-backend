@@ -16,6 +16,8 @@ public class HatcheryStockDto {
     @NotNull(message = "Total dispatched should be provided")
     Integer totalDispatched;
     Integer difference;
+    @NotNull(message = "Dispatch Id should be provided")
+    Long dispatchId;
     @NotNull(message = "Eggs Id should be provided")
-    Integer eggsId;
+    Long eggsStockId;
 }

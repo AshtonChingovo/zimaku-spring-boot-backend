@@ -1,10 +1,9 @@
 package com.zimaku.zimaku.domain.hatchery.receiveStock.entity;
 
+import com.zimaku.zimaku.domain.production.dispatch.entity.Dispatch;
+import com.zimaku.zimaku.domain.production.eggs.entity.EggsStock;
 import com.zimaku.zimaku.domain.util.Base;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -27,5 +26,10 @@ public class HatcheryStock extends Base {
     String batchNumber;
     @NotNull(message = "Total dispatched should be provided")
     Integer totalDispatched;
-    Integer eggsId;
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "dispatch_id", referencedColumnName = "id")
+    Dispatch dispatch;
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "eggs_stock_id", referencedColumnName = "id")
+    EggsStock eggsStock;
 }
