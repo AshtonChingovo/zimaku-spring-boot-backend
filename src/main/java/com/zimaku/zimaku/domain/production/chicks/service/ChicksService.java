@@ -49,16 +49,10 @@ public class ChicksService {
         return chicksRepository.findAll(paging).map(mapper::chicksToChicksDto);
     }
 
-    public ChicksDto saveAverageWeight(ChicksDto chicksDto){
+    public void saveAverageWeight(ChicksDto chicksDto){
         Chicks chick = chicksRepository.findById(chicksDto.getId()).orElseThrow(() -> new ResourceNotFoundException("Chick with ID " + chicksDto.getId() + " not found for average weight update."));
         chick.setAverageWeights(chicksDto.getAverageWeights());
-        try{
-            mapper.chicksToChicksDto(chicksRepository.save(chick));
-        }
-        catch (Exception e){
-            logger.error(e.toString());
-        }
-        return null;
+        chicksRepository.save(chick);
     }
 
     public void putChicks(ChicksDto chicksDto){

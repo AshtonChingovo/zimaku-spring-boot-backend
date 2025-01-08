@@ -1,7 +1,7 @@
 package com.zimaku.zimaku.domain.production.eggs.service;
 
 import com.zimaku.zimaku.domain.production.eggs.dto.EggsDto;
-import com.zimaku.zimaku.domain.production.eggs.entity.Eggs;
+import com.zimaku.zimaku.domain.production.eggs.entity.EggsStock;
 import com.zimaku.zimaku.domain.production.eggs.repository.EggsRepository;
 import com.zimaku.zimaku.exception.ResourceNotFoundException;
 import com.zimaku.zimaku.mapper.production.EggsMapper;
@@ -23,8 +23,8 @@ public class EggsService {
     }
 
     public EggsDto saveEggs(EggsDto eggsDto){
-        var eggs = eggsRepository.save(
-                Eggs.builder()
+        var eggsStock = eggsRepository.save(
+                EggsStock.builder()
                         .quantity(eggsDto.getQuantity())
                         .hatchable(eggsDto.getHatchable())
                         .rejects(eggsDto.getRejects())
@@ -32,7 +32,7 @@ public class EggsService {
                         .build()
         );
 
-        return mapper.eggsToEggsDto(eggs);
+        return mapper.eggsToEggsDto(eggsStock);
     }
 
     public Page<EggsDto> getEggs(Integer pageNumber, Integer pageSize, String sortBy) {
@@ -46,14 +46,14 @@ public class EggsService {
     }
 
     public void putEggs(EggsDto eggsDto) {
-        Eggs eggs = eggsRepository.findById(eggsDto.getId()).orElseThrow(() -> new ResourceNotFoundException("Failed to find resource you want to update"));
+        EggsStock eggsStock = eggsRepository.findById(eggsDto.getId()).orElseThrow(() -> new ResourceNotFoundException("Failed to find resource you want to update"));
 
-        eggs.setQuantity(eggsDto.getQuantity());
-        eggs.setHatchable(eggsDto.getHatchable());
-        eggs.setRejects(eggsDto.getRejects());
-        eggs.setBatchNumber(eggsDto.getBatchNumber());
+        eggsStock.setQuantity(eggsDto.getQuantity());
+        eggsStock.setHatchable(eggsDto.getHatchable());
+        eggsStock.setRejects(eggsDto.getRejects());
+        eggsStock.setBatchNumber(eggsDto.getBatchNumber());
 
-        eggsRepository.save(eggs);
+        eggsRepository.save(eggsStock);
     }
 
     public void deleteEggs(Integer id) {

@@ -1,6 +1,6 @@
 package com.zimaku.zimaku.domain.production.eggs.repository;
 
-import com.zimaku.zimaku.domain.production.eggs.entity.Eggs;
+import com.zimaku.zimaku.domain.production.eggs.entity.EggsStock;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -11,13 +11,13 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface EggsRepository extends PagingAndSortingRepository<Eggs, Long>, JpaRepository<Eggs, Long> {
+public interface EggsRepository extends PagingAndSortingRepository<EggsStock, Long>, JpaRepository<EggsStock, Long> {
 
-    @Query(value = "SELECT e FROM Eggs e WHERE e.isDispatched != true")
-    Page<Eggs> findEggsNotDispatched(Pageable pageable);
+    @Query(value = "SELECT e FROM EggsStock e WHERE e.isDispatched != true")
+    Page<EggsStock> findEggsNotDispatched(Pageable pageable);
 
-    @Modifying
-    @Query(value = "UPDATE Eggs SET isDispatched = true WHERE id = :id")
-    void updateDispatchStatus(@Param("id") Integer id);
+/*    @Modifying
+    @Query(value = "UPDATE EggsStock SET isDispatched = true WHERE id = :id")
+    void updateDispatchStatus(@Param("id") Long id);*/
 
 }

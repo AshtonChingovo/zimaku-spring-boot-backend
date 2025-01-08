@@ -1,10 +1,8 @@
 package com.zimaku.zimaku.domain.production.dispatch.entity;
 
+import com.zimaku.zimaku.domain.production.eggs.entity.EggsStock;
 import com.zimaku.zimaku.domain.util.Base;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -24,4 +22,8 @@ public class Dispatch extends Base {
     private String batchNumber;
     private Integer totalStockReceived;
     private String dateStockReceived;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "eggs_id", referencedColumnName = "id")
+    private EggsStock eggsStock;
+
 }

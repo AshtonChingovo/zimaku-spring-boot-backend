@@ -30,8 +30,9 @@ public class ChicksController {
     }
 
     @PostMapping(path = "/average_weights")
-    public ResponseEntity<ChicksDto> saveChickAverageWeight(@Valid @RequestBody ChicksDto chicksDto){
-        return new ResponseEntity<>(chicksService.saveAverageWeight(chicksDto), HttpStatus.OK);
+    public ResponseEntity<Object> saveChickAverageWeight(@Valid @RequestBody ChicksDto chicksDto){
+        chicksService.saveAverageWeight(chicksDto);
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 
     @GetMapping
