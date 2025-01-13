@@ -30,5 +30,5 @@ public class ChicksStockDto {
         private String batchNumber;
         private String age;
         private String date;
-        private Set<AverageWeight> averageWeight;
+        private Set<AverageWeightDto> averageWeight;
 }

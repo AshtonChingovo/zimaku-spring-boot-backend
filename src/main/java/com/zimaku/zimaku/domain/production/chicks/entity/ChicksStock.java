@@ -23,7 +23,7 @@ public class ChicksStock extends Base {
     private Integer females;
     private Integer fatalities;
     private String batchNumber;
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "chicks_id")
     private Set<AverageWeight> averageWeight;
 }
