@@ -25,20 +25,22 @@ public class ClientController {
         return new ResponseEntity<>(clientService.getClients(pageNumber, pageSize, sortBy), HttpStatus.OK);
     }
 
+
+
     @PostMapping
-    public ResponseEntity<Object> saveClient(@Valid @RequestBody ClientDto clientDto){
+    public ResponseEntity<?> saveClient(@Valid @RequestBody ClientDto clientDto){
         clientService.saveClient(clientDto);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @PutMapping
-    public ResponseEntity<Object> updateClient(@Valid @RequestBody ClientDto clientDto){
+    public ResponseEntity<?> updateClient(@Valid @RequestBody ClientDto clientDto){
         clientService.putClient(clientDto);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
     @DeleteMapping
-    public ResponseEntity<Object> deleteClient(@RequestBody ClientDto clientDto){
+    public ResponseEntity<?> deleteClient(@Valid @RequestBody ClientDto clientDto){
         clientService.deleteClient(clientDto);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }

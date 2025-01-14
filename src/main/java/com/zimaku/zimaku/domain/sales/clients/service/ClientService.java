@@ -32,18 +32,18 @@ public class ClientService {
     }
 
     public void putClient(ClientDto clientDto){
-        Client client = clientRepository.findById(clientDto.getId()).orElseThrow(() -> new ResourceNotFoundException("Could not find client with the requested ID"));
+        Client client = clientRepository.findById(clientDto.id()).orElseThrow(() -> new ResourceNotFoundException("Could not find client with the requested ID"));
 
-        client.setFirstName(clientDto.getFirstName());
-        client.setLastName(clientDto.getLastName());
-        client.setAddress(clientDto.getAddress());
-        client.setPhoneNumber(clientDto.getPhoneNumber());
-        client.setClientType(clientDto.getClientType());
+        client.setFirstName(clientDto.firstName());
+        client.setLastName(clientDto.lastName());
+        client.setAddress(clientDto.address());
+        client.setPhoneNumber(clientDto.phoneNumber());
+        client.setClientType(clientDto.clientType());
 
         clientRepository.save(client);
     }
 
     public void deleteClient(ClientDto clientDto){
-        clientRepository.deleteById(clientDto.getId());
+        clientRepository.deleteById(clientDto.id());
     }
 }

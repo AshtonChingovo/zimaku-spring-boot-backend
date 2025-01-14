@@ -13,16 +13,12 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.LogManager;
-
 import java.util.stream.Collectors;
 
 @Slf4j
 @Service
 public class ChicksStockService {
 
-    private static final Logger logger = LogManager.getLogger(ChicksStockService.class);
 
     private final ChicksStockRepository chicksStockRepository;
     private ChicksMapper chicksStockMapper;
