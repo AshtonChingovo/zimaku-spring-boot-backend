@@ -18,7 +18,6 @@ import java.util.UUID;
 @AllArgsConstructor
 @RequiredArgsConstructor
 public class Client extends Base {
-
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
@@ -27,5 +26,4 @@ public class Client extends Base {
     private String address;
     private String phoneNumber;
     private String clientType;
-
 }

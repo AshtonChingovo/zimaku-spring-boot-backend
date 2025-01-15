@@ -19,7 +19,7 @@ public class Orders extends Base {
     private String collectionDate;
     private Boolean isPaid;
     private String comments;
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "client_id", referencedColumnName = "id")
+    @ManyToOne
+    @JoinColumn(name = "client_id", referencedColumnName = "id", nullable = false)
     private Client client;
 }

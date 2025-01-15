@@ -1,5 +1,6 @@
 package com.zimaku.zimaku.domain.sales.orders.service;
 
+import com.zimaku.zimaku.domain.sales.clients.repository.ClientRepository;
 import com.zimaku.zimaku.domain.sales.orders.dto.OrderDto;
 import com.zimaku.zimaku.domain.sales.orders.repository.OrderRepository;
 import com.zimaku.zimaku.exception.ResourceNotFoundException;
@@ -16,25 +17,25 @@ import org.springframework.stereotype.Service;
 public class OrderService {
 
     private OrderRepository orderRepository;
+    private ClientRepository clientRepository;
     private OrderMapper mapper;
 
-    public OrderService(OrderRepository orderRepository, OrderMapper mapper) {
+    public OrderService(OrderRepository orderRepository, ClientRepository clientRepository, OrderMapper mapper) {
         this.orderRepository = orderRepository;
+        this.clientRepository = clientRepository;
         this.mapper = mapper;
     }
 
     public Page<OrderDto> getOrders(int pageNumber, int pageSize, String sort){
         Pageable page = PageRequest.of(pageNumber, pageSize, Sort.by(sort).descending());
-        log.info("Content :: {}", orderRepository.findAll(page).map(mapper::orderToOrderDto));
         return orderRepository.findAll(page).map(mapper::orderToOrderDto);
     }
 
     public void saveOrder(OrderDto orderDto){
-        try {
-            orderRepository.save(mapper.orderDtoToOrder(orderDto));
-        } catch (Exception e) {
-            log.info("ERROR :: {}", String.valueOf(e));
-        }
+        var client = clientRepository.findById(orderDto.client().getId()).orElseThrow(() -> new ResourceNotFoundException("Client with requested id not found"));
+        var order = mapper.orderDtoToOrder(orderDto);
+        order.setClient(client);
+        orderRepository.save(order);
     }
 
     public void updateOrder(OrderDto orderDto){

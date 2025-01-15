@@ -3,11 +3,13 @@ package com.zimaku.zimaku.domain.production.dispatch.controller;
 import com.zimaku.zimaku.domain.production.dispatch.dto.DispatchDto;
 import com.zimaku.zimaku.domain.production.dispatch.service.DispatchService;
 import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+@Slf4j
 @RestController
 @RequestMapping("api/v1/dispatches")
 public class DispatchController {
@@ -20,8 +22,14 @@ public class DispatchController {
 
     @PostMapping
     public ResponseEntity<Object> saveDispatch(@RequestBody DispatchDto dispatchDto){
-        dispatchService.saveDispatch(dispatchDto);
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+        try{
+            dispatchService.saveDispatch(dispatchDto);
+            return ResponseEntity.status(HttpStatus.CREATED).build();
+        }
+        catch (Exception e){
+            log.info("ERROR :: {}", e.toString());
+            return null;
+        }
     }
 
     @GetMapping
