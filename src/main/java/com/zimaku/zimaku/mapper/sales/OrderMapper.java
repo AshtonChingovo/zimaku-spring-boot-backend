@@ -1,18 +1,26 @@
 package com.zimaku.zimaku.mapper.sales;
 
+import com.zimaku.zimaku.domain.sales.clients.dto.ClientDto;
+import com.zimaku.zimaku.domain.sales.clients.model.Client;
 import com.zimaku.zimaku.domain.sales.orders.dto.OrderDto;
-import com.zimaku.zimaku.domain.sales.orders.model.Orders;
+import com.zimaku.zimaku.domain.sales.orders.model.Order;
 import com.zimaku.zimaku.domain.util.InstantDateMapperFormatter;
 import com.zimaku.zimaku.mapper.config.IgnoreUnmappedPropertiesConfig;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @Mapper(componentModel = "spring", config = IgnoreUnmappedPropertiesConfig.class, uses = InstantDateMapperFormatter.class)
-public interface OrderMapper {
+public interface OrderMapper extends PriceMapper {
 
-    public Orders orderDtoToOrder(OrderDto orderDto);
+    Order orderDtoToOrder(OrderDto orderDto);
 
-    public OrderDto orderToOrderDto(Orders orders);
+    @Mapping(target = "date", source = "order.createdDate")
+    OrderDto orderToOrderDto(Order order);
+
+    @Mapping(target = "date", source = "client.createdDate")
+    ClientDto clientToClientDto(Client client);
 
 }
+

@@ -3,6 +3,7 @@ package com.zimaku.zimaku.domain.sales.orders.service;
 import com.zimaku.zimaku.domain.sales.clients.repository.ClientRepository;
 import com.zimaku.zimaku.domain.sales.orders.dto.OrderDto;
 import com.zimaku.zimaku.domain.sales.orders.repository.OrderRepository;
+import com.zimaku.zimaku.domain.sales.price.repository.PriceRepository;
 import com.zimaku.zimaku.exception.ResourceNotFoundException;
 import com.zimaku.zimaku.mapper.sales.OrderMapper;
 import lombok.extern.slf4j.Slf4j;
@@ -16,15 +17,18 @@ import org.springframework.stereotype.Service;
 @Service
 public class OrderService {
 
-    private OrderRepository orderRepository;
-    private ClientRepository clientRepository;
-    private OrderMapper mapper;
+    private final OrderRepository orderRepository;
+    private final ClientRepository clientRepository;
+    private final PriceRepository priceRepository;
+    private final OrderMapper mapper;
 
-    public OrderService(OrderRepository orderRepository, ClientRepository clientRepository, OrderMapper mapper) {
+    public OrderService(OrderRepository orderRepository, ClientRepository clientRepository, PriceRepository priceRepository, OrderMapper mapper) {
         this.orderRepository = orderRepository;
         this.clientRepository = clientRepository;
+        this.priceRepository = priceRepository;
         this.mapper = mapper;
     }
+
 
     public Page<OrderDto> getOrders(int pageNumber, int pageSize, String sort){
         Pageable page = PageRequest.of(pageNumber, pageSize, Sort.by(sort).descending());
@@ -32,9 +36,14 @@ public class OrderService {
     }
 
     public void saveOrder(OrderDto orderDto){
-        var client = clientRepository.findById(orderDto.client().getId()).orElseThrow(() -> new ResourceNotFoundException("Client with requested id not found"));
+        var client = clientRepository.findById(orderDto.client().id()).orElseThrow(() -> new ResourceNotFoundException("Client with requested id not found"));
+        var price = priceRepository.findFirstByOrderByIdDesc().orElseThrow(() -> new ResourceNotFoundException("Price/unit has not been set, contact admin"));
+
         var order = mapper.orderDtoToOrder(orderDto);
+
         order.setClient(client);
+        order.setPrice(price);
+
         orderRepository.save(order);
     }
 

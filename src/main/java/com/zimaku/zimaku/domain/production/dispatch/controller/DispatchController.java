@@ -21,15 +21,9 @@ public class DispatchController {
     }
 
     @PostMapping
-    public ResponseEntity<Object> saveDispatch(@RequestBody DispatchDto dispatchDto){
-        try{
-            dispatchService.saveDispatch(dispatchDto);
-            return ResponseEntity.status(HttpStatus.CREATED).build();
-        }
-        catch (Exception e){
-            log.info("ERROR :: {}", e.toString());
-            return null;
-        }
+    public ResponseEntity<Object> saveDispatch(@Valid @RequestBody DispatchDto dispatchDto){
+        dispatchService.saveDispatch(dispatchDto);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @GetMapping

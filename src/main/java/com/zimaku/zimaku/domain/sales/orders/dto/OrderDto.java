@@ -1,12 +1,15 @@
 package com.zimaku.zimaku.domain.sales.orders.dto;
 
+import com.zimaku.zimaku.domain.sales.clients.dto.ClientDto;
 import com.zimaku.zimaku.domain.sales.clients.model.Client;
+import com.zimaku.zimaku.domain.sales.price.dto.PriceDto;
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 
 @Builder
 public record OrderDto(
         Long id,
+        String date,
         @NotNull(message = "collection Date should be provided")
         String collectionDate,
         @NotNull(message = "quantity should be provided")
@@ -15,5 +18,6 @@ public record OrderDto(
         Boolean isPaid,
         String comments,
         @NotNull(message = "client should be provided")
-        Client client
+        ClientDto client,
+        PriceDto price
 ){ }

@@ -2,6 +2,12 @@ package com.zimaku.zimaku;
 
 import com.zimaku.zimaku.domain.production.dispatch.repository.DispatchRepository;
 import com.zimaku.zimaku.domain.production.eggs.repository.EggsStockRepository;
+import com.zimaku.zimaku.domain.sales.clients.model.Client;
+import com.zimaku.zimaku.domain.sales.clients.repository.ClientRepository;
+import com.zimaku.zimaku.domain.sales.orders.model.Order;
+import com.zimaku.zimaku.domain.sales.orders.repository.OrderRepository;
+import com.zimaku.zimaku.domain.sales.price.model.Price;
+import com.zimaku.zimaku.domain.sales.price.repository.PriceRepository;
 import com.zimaku.zimaku.domain.user.entity.Privilege;
 import com.zimaku.zimaku.domain.user.entity.Role;
 import com.zimaku.zimaku.domain.user.entity.User;
@@ -26,10 +32,11 @@ public class Application {
 	@Bean
 	public CommandLineRunner runner(UserRepository userRepository,
 									RoleRepository roleRepository,
-									EggsStockRepository eggsStockRepository,
 									PrivilegeRepository privilegeRepository,
-									DispatchRepository dispatchRepository,
-									PasswordEncoder passwordEncoder){
+									PasswordEncoder passwordEncoder,
+									OrderRepository orderRepository,
+									ClientRepository clientRepository,
+									PriceRepository priceRepository){
 		return args -> {
 
 			Privilege readPrivilege = Privilege.builder()
@@ -80,6 +87,34 @@ public class Application {
 
 			userRepository.save(admin);
 			userRepository.save(user);
+
+
+			var client = Client.builder()
+					.firstName("name")
+					.lastName("lastName")
+					.address("client address")
+					.phoneNumber("00009098908")
+					.clientType("FARMER")
+					.build();
+
+			var price = Price.builder()
+							.unitPrice(0.67)
+							.currency("USD")
+							.build();
+
+			clientRepository.save(client);
+			priceRepository.save(price);
+
+			orderRepository.save(
+					Order.builder()
+							.collectionDate("23/01/2025")
+							.quantity(34)
+							.isPaid(true)
+							.comments("comments")
+							.client(client)
+							.price(price)
+							.build()
+			);
 
 /*			eggsRepository.save(
 					Eggs.builder()

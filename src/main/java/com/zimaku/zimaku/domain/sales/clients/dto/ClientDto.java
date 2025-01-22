@@ -7,8 +7,8 @@ import java.util.UUID;
 
 @Builder
 public record ClientDto(
-         UUID id,
-         String date,
+        UUID id,
+        String date,
         @NotNull(message = "FirstName should be provided")
         String firstName,
         String lastName,
@@ -16,6 +16,5 @@ public record ClientDto(
         @NotNull(message = "Phone number should be provided")
         String phoneNumber,
         @NotNull(message = "Client type should be provided")
-         String clientType){}
-
-
+        String clientType
+){}
