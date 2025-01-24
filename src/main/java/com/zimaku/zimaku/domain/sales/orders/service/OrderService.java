@@ -1,5 +1,6 @@
 package com.zimaku.zimaku.domain.sales.orders.service;
 
+import com.zimaku.zimaku.domain.sales.clients.model.Client;
 import com.zimaku.zimaku.domain.sales.clients.repository.ClientRepository;
 import com.zimaku.zimaku.domain.sales.orders.dto.OrderDto;
 import com.zimaku.zimaku.domain.sales.orders.repository.OrderRepository;
@@ -29,14 +30,34 @@ public class OrderService {
         this.mapper = mapper;
     }
 
-
-    public Page<OrderDto> getOrders(int pageNumber, int pageSize, String sort){
+    public Page<OrderDto> getOrders(int pageNumber, int pageSize, String sort, String orderType){
         Pageable page = PageRequest.of(pageNumber, pageSize, Sort.by(sort).descending());
-        return orderRepository.findAll(page).map(mapper::orderToOrderDto);
+
+        return switch (orderType) {
+            case "PENDING" -> orderRepository.findOrders(false, page).map(mapper::orderToOrderDto);
+            case "SALES" -> orderRepository.findOrders(true, page).map(mapper::orderToOrderDto);
+            default -> orderRepository.findAll(page).map(mapper::orderToOrderDto);
+        };
+
     }
 
     public void saveOrder(OrderDto orderDto){
-        var client = clientRepository.findById(orderDto.client().id()).orElseThrow(() -> new ResourceNotFoundException("Client with requested id not found"));
+
+        // null id means this is a new user not persisted before i.e. new walkIn client
+        if(orderDto.getClient().id() == null){
+            var client = clientRepository.save(
+                    Client.builder()
+                            .firstName(orderDto.getClient().firstName())
+                            .lastName(orderDto.getClient().lastName())
+                            .address(orderDto.getClient().phoneNumber())
+                            .clientType(orderDto.getClient().clientType())
+                            .build()
+            );
+
+            orderDto.setClient(mapper.clientToClientDto(client));
+        }
+
+        var client = clientRepository.findById(orderDto.getClient().id()).orElseThrow(() -> new ResourceNotFoundException("Client with requested id not found"));
         var price = priceRepository.findFirstByOrderByIdDesc().orElseThrow(() -> new ResourceNotFoundException("Price/unit has not been set, contact admin"));
 
         var order = mapper.orderDtoToOrder(orderDto);
@@ -48,12 +69,12 @@ public class OrderService {
     }
 
     public void updateOrder(OrderDto orderDto){
-        var order = orderRepository.findById(orderDto.id()).orElseThrow(() -> new ResourceNotFoundException("Order with provided Id not found"));
+        var order = orderRepository.findById(orderDto.getId()).orElseThrow(() -> new ResourceNotFoundException("Order with provided Id not found"));
 
-        order.setQuantity(orderDto.quantity());
-        order.setCollectionDate(orderDto.collectionDate());
-        order.setIsPaid(orderDto.isPaid());
-        order.setComments(orderDto.comments());
+        order.setQuantity(orderDto.getQuantity());
+        order.setCollectionDate(orderDto.getCollectionDate());
+        order.setIsPaid(orderDto.getIsPaid());
+        order.setComments(orderDto.getComments());
 
         orderRepository.save(order);
     }

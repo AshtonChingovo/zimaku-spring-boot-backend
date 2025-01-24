@@ -20,8 +20,9 @@ public class OrderController {
     @GetMapping
     public ResponseEntity<?> getOrders(@RequestParam(defaultValue = "0") Integer pageNumber,
                                        @RequestParam(defaultValue = "0") Integer pageSize,
-                                       @RequestParam(defaultValue = "id") String sortBy){
-        return new ResponseEntity<>(orderService.getOrders(pageNumber, pageSize, sortBy), HttpStatus.OK);
+                                       @RequestParam(defaultValue = "id") String sortBy,
+                                       @RequestParam(defaultValue = "") String orderType){
+        return new ResponseEntity<>(orderService.getOrders(pageNumber, pageSize, sortBy, orderType), HttpStatus.OK);
     }
 
     @PostMapping
@@ -38,7 +39,7 @@ public class OrderController {
 
     @DeleteMapping
     public ResponseEntity<?> deleteOrder(@Valid @RequestBody OrderDto orderDto){
-        orderService.deleteOrder(orderDto.id());
+        orderService.deleteOrder(orderDto.getId());
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 

@@ -25,8 +25,6 @@ public class ClientController {
         return new ResponseEntity<>(clientService.getClients(pageNumber, pageSize, sortBy), HttpStatus.OK);
     }
 
-
-
     @PostMapping
     public ResponseEntity<?> saveClient(@Valid @RequestBody ClientDto clientDto){
         clientService.saveClient(clientDto);

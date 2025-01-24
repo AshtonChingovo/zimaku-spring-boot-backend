@@ -1,7 +1,5 @@
 package com.zimaku.zimaku;
 
-import com.zimaku.zimaku.domain.production.dispatch.repository.DispatchRepository;
-import com.zimaku.zimaku.domain.production.eggs.repository.EggsStockRepository;
 import com.zimaku.zimaku.domain.sales.clients.model.Client;
 import com.zimaku.zimaku.domain.sales.clients.repository.ClientRepository;
 import com.zimaku.zimaku.domain.sales.orders.model.Order;
@@ -107,7 +105,7 @@ public class Application {
 
 			orderRepository.save(
 					Order.builder()
-							.collectionDate("23/01/2025")
+							.collectionDate("23-01-2025")
 							.quantity(34)
 							.isPaid(true)
 							.comments("comments")

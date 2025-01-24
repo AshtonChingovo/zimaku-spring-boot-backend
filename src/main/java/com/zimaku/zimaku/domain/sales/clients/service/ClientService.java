@@ -27,7 +27,7 @@ public class ClientService {
     }
 
     public Page<ClientDto> getClients(Integer pageNumber, Integer pageSize, String sortBy){
-        Pageable paging = PageRequest.of(pageNumber, pageSize, Sort.by(sortBy).descending());
+        Pageable paging = PageRequest.of(pageNumber, pageSize, Sort.by(sortBy).ascending());
         return clientRepository.findAll(paging).map(mapper::clientToClientDto);
     }
 

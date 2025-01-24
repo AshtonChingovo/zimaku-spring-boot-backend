@@ -1,23 +1,24 @@
 package com.zimaku.zimaku.domain.sales.orders.dto;
 
 import com.zimaku.zimaku.domain.sales.clients.dto.ClientDto;
-import com.zimaku.zimaku.domain.sales.clients.model.Client;
 import com.zimaku.zimaku.domain.sales.price.dto.PriceDto;
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
+import lombok.Data;
 
+@Data
 @Builder
-public record OrderDto(
-        Long id,
-        String date,
+public class OrderDto{
+        Long id;
+        String date;
         @NotNull(message = "collection Date should be provided")
-        String collectionDate,
+        String collectionDate;
         @NotNull(message = "quantity should be provided")
-        Integer quantity,
+        Integer quantity;
         @NotNull(message = "is order paid status should be provided")
-        Boolean isPaid,
-        String comments,
+        Boolean isPaid;
+        String comments;
         @NotNull(message = "client should be provided")
-        ClientDto client,
-        PriceDto price
-){ }
+        ClientDto client;
+        PriceDto price;
+}
