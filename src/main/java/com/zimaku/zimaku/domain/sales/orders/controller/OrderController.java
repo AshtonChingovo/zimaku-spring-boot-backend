@@ -2,7 +2,9 @@ package com.zimaku.zimaku.domain.sales.orders.controller;
 
 import com.zimaku.zimaku.domain.sales.orders.dto.OrderDto;
 import com.zimaku.zimaku.domain.sales.orders.service.OrderService;
+import com.zimaku.zimaku.domain.sales.price.dto.PriceDto;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,10 +20,10 @@ public class OrderController {
     }
 
     @GetMapping
-    public ResponseEntity<?> getOrders(@RequestParam(defaultValue = "0") Integer pageNumber,
-                                       @RequestParam(defaultValue = "0") Integer pageSize,
-                                       @RequestParam(defaultValue = "id") String sortBy,
-                                       @RequestParam(defaultValue = "") String orderType){
+    public ResponseEntity<Page<OrderDto>> getOrders(@RequestParam(defaultValue = "0") Integer pageNumber,
+                                                    @RequestParam(defaultValue = "0") Integer pageSize,
+                                                    @RequestParam(defaultValue = "id") String sortBy,
+                                                    @RequestParam(defaultValue = "") String orderType){
         return new ResponseEntity<>(orderService.getOrders(pageNumber, pageSize, sortBy, orderType), HttpStatus.OK);
     }
 

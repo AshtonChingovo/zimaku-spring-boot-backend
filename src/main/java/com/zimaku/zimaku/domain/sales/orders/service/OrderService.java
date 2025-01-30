@@ -21,22 +21,22 @@ public class OrderService {
     private final OrderRepository orderRepository;
     private final ClientRepository clientRepository;
     private final PriceRepository priceRepository;
-    private final OrderMapper mapper;
+    private final OrderMapper orderMapper;
 
-    public OrderService(OrderRepository orderRepository, ClientRepository clientRepository, PriceRepository priceRepository, OrderMapper mapper) {
+    public OrderService(OrderRepository orderRepository, ClientRepository clientRepository, PriceRepository priceRepository, OrderMapper orderMapper) {
         this.orderRepository = orderRepository;
         this.clientRepository = clientRepository;
         this.priceRepository = priceRepository;
-        this.mapper = mapper;
+        this.orderMapper = orderMapper;
     }
 
     public Page<OrderDto> getOrders(int pageNumber, int pageSize, String sort, String orderType){
         Pageable page = PageRequest.of(pageNumber, pageSize, Sort.by(sort).ascending());
 
         return switch (orderType) {
-            case "PENDING" -> orderRepository.findOrders(false, page).map(mapper::orderToOrderDto);
-            case "SALES" -> orderRepository.findOrders(true, page).map(mapper::orderToOrderDto);
-            default -> orderRepository.findAll(page).map(mapper::orderToOrderDto);
+            case "PENDING" -> orderRepository.findOrders(false, page).map(orderMapper::orderToOrderDto);
+            case "SALES" -> orderRepository.findOrders(true, page).map(orderMapper::orderToOrderDto);
+            default -> orderRepository.findAll(page).map(orderMapper::orderToOrderDto);
         };
 
     }
@@ -54,13 +54,13 @@ public class OrderService {
                             .build()
             );
 
-            orderDto.setClient(mapper.clientToClientDto(client));
+            orderDto.setClient(orderMapper.clientToClientDto(client));
         }
 
         var client = clientRepository.findById(orderDto.getClient().id()).orElseThrow(() -> new ResourceNotFoundException("Client with requested id not found"));
         var price = priceRepository.findFirstByOrderByIdDesc().orElseThrow(() -> new ResourceNotFoundException("Price/unit has not been set, contact admin"));
 
-        var order = mapper.orderDtoToOrder(orderDto);
+        var order = orderMapper.orderDtoToOrder(orderDto);
 
         order.setClient(client);
         order.setPrice(price);
