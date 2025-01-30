@@ -68,8 +68,8 @@ public class AuthService {
 
         userRepository.save(User.builder()
                 .email(registrationRequestDto.getEmail())
-                .firstname(registrationRequestDto.getFirstname())
-                .surname(registrationRequestDto.getSurname())
+                .firstName(registrationRequestDto.getFirstname())
+                .lastName(registrationRequestDto.getSurname())
                 .password(registrationRequestDto.getPassword())
                 .isActive(true)
                 .roles(roleRepository.findByTitle("ROLE_USER"))

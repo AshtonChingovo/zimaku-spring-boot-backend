@@ -1,0 +1,113 @@
+package com.zimaku.zimaku.domain.user.service;
+
+import com.zimaku.zimaku.domain.user.dto.AccountActiveDto;
+import com.zimaku.zimaku.domain.user.dto.PasswordDto;
+import com.zimaku.zimaku.domain.user.dto.UserDto;
+import com.zimaku.zimaku.domain.user.entity.Role;
+import com.zimaku.zimaku.domain.user.repository.RoleRepository;
+import com.zimaku.zimaku.domain.user.repository.UserRepository;
+import com.zimaku.zimaku.exception.ResourceNotFoundException;
+import com.zimaku.zimaku.exception.ResourceIdNotProvidedException;
+import com.zimaku.zimaku.mapper.user.UserMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+
+import java.util.Collections;
+
+import static com.zimaku.zimaku.domain.util.StringUtil.DEFAULT_PASSWORD;
+import static com.zimaku.zimaku.domain.util.StringUtil.USER_ROLE_PREFIX;
+
+@Service
+public class UserService {
+
+    private static final Logger log = LoggerFactory.getLogger(UserService.class);
+
+    private final UserRepository userRepository;
+    private final RoleRepository roleRepository;
+    private final PasswordEncoder passwordEncoder;
+    private final UserMapper userMapper;
+
+    public UserService(UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder, UserMapper userMapper) {
+        this.userRepository = userRepository;
+        this.roleRepository = roleRepository;
+        this.passwordEncoder = passwordEncoder;
+        this.userMapper = userMapper;
+    }
+
+    public Page<UserDto> getUsers(int pageNumber, int pageSize, String sort){
+        Pageable page = PageRequest.of(pageNumber, pageSize, Sort.by(sort));
+        return userRepository.findAll(page).map(userMapper::userToUserDto);
+    }
+
+    public void createUser(UserDto userDto){
+        // setup account with default login password
+        var user = userMapper.userDtoToUser(userDto);
+        user.setPassword(passwordEncoder.encode(DEFAULT_PASSWORD));
+
+        Role role = roleRepository.findByTitleOneRole(USER_ROLE_PREFIX + userDto.getRoles().stream().findFirst().get().getTitle()).orElseThrow(() -> new ResourceNotFoundException("Could not find role requested"));
+
+        user.setRoles(Collections.singletonList(role));
+        userRepository.save(user);
+    }
+
+    public void updateUser(UserDto userDto){
+
+        try{
+            if(userDto.getId() == null)
+                throw new ResourceIdNotProvidedException("User Id has not been provided");
+
+            var user = userRepository.findById(userDto.getId()).orElseThrow(() -> new ResourceNotFoundException("Failed to find User with requested ID"));
+
+            user.setFirstName(userDto.getFirstName());
+            user.setLastName(userDto.getLastName());
+            user.setEmail(userDto.getEmail());
+            user.setPhoneNumber(userDto.getPhoneNumber());
+            user.setAddress(userDto.getAddress());
+            user.setDepartment(userDto.getDepartment());
+
+            // compare if the role is the same
+/*            boolean isSameRole = userDto.getRoles().stream().findFirst()
+                    .flatMap(dtoRole -> user.getRoles().stream().findFirst()
+                            .map(userRole -> dtoRole.getTitle().equals(userRole.getTitle())))
+                    .orElse(false);
+
+            if(!isSameRole){
+                Role role = roleRepository.findByTitleOneRole(USER_ROLE_PREFIX + userDto.getRoles().stream().findFirst().get().getTitle()).orElseThrow(() -> new ResourceNotFoundException("Could not find role requested"));
+                user.setRoles(Collections.singletonList(role));
+            }*/
+
+            userRepository.save(user);
+        }
+        catch (Exception e){
+            System.out.println("ERROR {} ::: " + e);
+        }
+
+    }
+
+    public void updatePassword(PasswordDto passwordDto){
+        if(passwordDto.getId() == null || passwordDto.getId().toString().isEmpty())
+            throw new ResourceIdNotProvidedException("User Id has not been provided");
+
+        var user = userRepository.findById(passwordDto.getId()).orElseThrow(() -> new ResourceNotFoundException("Failed to find User with requested ID"));
+
+        user.setPassword(passwordEncoder.encode(passwordDto.getPassword()));
+
+        userRepository.save(user);
+    }
+
+    public void accountActivationStatus(AccountActiveDto accountActiveDto) {
+        if(accountActiveDto == null || accountActiveDto.toString().isEmpty())
+            throw new ResourceIdNotProvidedException("User Id has not been provided");
+
+        var user = userRepository.findById(accountActiveDto.getId()).orElseThrow(() -> new ResourceNotFoundException("Failed to find User with requested ID"));
+
+        user.setActive(accountActiveDto.isActive());
+        userRepository.save(user);
+    }
+}

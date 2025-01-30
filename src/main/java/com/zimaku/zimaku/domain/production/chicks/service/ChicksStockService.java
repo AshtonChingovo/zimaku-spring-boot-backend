@@ -44,7 +44,7 @@ public class ChicksStockService {
     }
 
     public Page<ChicksStockDto> getChicks(Integer pageNumber, Integer pageSize, String sortBy){
-        Pageable paging = PageRequest.of(pageNumber, pageSize, Sort.by(sortBy).descending());
+        Pageable paging = PageRequest.of(pageNumber, pageSize, Sort.by(sortBy).ascending());
         return chicksStockRepository.findAll(paging).map(chicksStockMapper::chicksToChicksDto);
     }
 

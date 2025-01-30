@@ -19,6 +19,6 @@ public class Privilege {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String name;
-    @ManyToMany(mappedBy = "privileges")
-    private Collection<Role> roles;
+//    @ManyToMany(mappedBy = "privileges")
+//    private Collection<Role> roles;
 }

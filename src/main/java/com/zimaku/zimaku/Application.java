@@ -51,12 +51,12 @@ public class Application {
 
 			Role adminRole = Role.builder()
 					.title("ROLE_ADMIN")
-					.privileges(privilegeList)
+					//.privileges(privilegeList)
 					.build();
 
 			Role userRole = Role.builder()
 					.title("ROLE_USER")
-					.privileges(Arrays.asList(readPrivilege))
+					//.privileges(Arrays.asList(readPrivilege))
 					.build();
 
 			privilegeRepository.save(readPrivilege);
@@ -67,8 +67,8 @@ public class Application {
 
 			User admin = User.builder()
 					.email("admin@email.com")
-					.firstname("user")
-					.surname("surname")
+					.firstName("user")
+					.lastName("surname")
 					.isActive(true)
 					.password(passwordEncoder.encode("password"))
 					.roles(Arrays.asList(adminRole))
@@ -76,8 +76,8 @@ public class Application {
 
 			User user = User.builder()
 					.email("user@email.com")
-					.firstname("user")
-					.surname("surname")
+					.firstName("user")
+					.lastName("surname")
 					.isActive(true)
 					.password(passwordEncoder.encode("password"))
 					.roles(Arrays.asList(userRole))
@@ -85,7 +85,6 @@ public class Application {
 
 			userRepository.save(admin);
 			userRepository.save(user);
-
 
 			var client = Client.builder()
 					.firstName("name")

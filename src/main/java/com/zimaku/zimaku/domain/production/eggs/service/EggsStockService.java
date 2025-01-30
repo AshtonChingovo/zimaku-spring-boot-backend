@@ -36,12 +36,12 @@ public class EggsStockService {
     }
 
     public Page<EggsStockDto> getEggs(Integer pageNumber, Integer pageSize, String sortBy) {
-        Pageable paging = PageRequest.of(pageNumber, pageSize, Sort.by(sortBy).descending());
+        Pageable paging = PageRequest.of(pageNumber, pageSize, Sort.by(sortBy).ascending());
         return eggsStockRepository.findAll(paging).map(mapper::eggsToEggsDto);
     }
 
     public Page<EggsStockDto> getEggsNotDispatched(Integer pageNumber, Integer pageSize, String sortBy) {
-        Pageable paging = PageRequest.of(pageNumber, pageSize, Sort.by(sortBy).descending());
+        Pageable paging = PageRequest.of(pageNumber, pageSize, Sort.by(sortBy).ascending());
         return eggsStockRepository.findEggsNotDispatched(paging).map(mapper::eggsToEggsDto);
     }
 

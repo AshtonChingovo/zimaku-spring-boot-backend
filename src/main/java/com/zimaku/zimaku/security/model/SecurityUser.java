@@ -27,7 +27,7 @@ public class SecurityUser implements UserDetails {
         List<String> authorities = new ArrayList<>();
 
         for(Role role: user.getRoles()){
-            privileges.addAll(role.getPrivileges());
+            //privileges.addAll(role.getPrivileges());
             authorities.add(role.getTitle());
         }
 

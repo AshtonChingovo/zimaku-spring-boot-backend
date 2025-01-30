@@ -1,5 +1,6 @@
 package com.zimaku.zimaku.domain.user.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -19,12 +20,14 @@ public class Role {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String title;
+    @JsonIgnore
     @ManyToMany(mappedBy = "roles")
     private Collection<User> users;
-    @ManyToMany
-    @JoinTable(
+/*    @ManyToMany
+    @JoinColumn(name = "privilege_id", referencedColumnName = "id")
+*//*    @JoinTable(
             name = "role_privileges",
             joinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "privilege_id", referencedColumnName = "id"))
-    private Collection<Privilege> privileges;
+            inverseJoinColumns = @JoinColumn(name = "privilege_id", referencedColumnName = "id"))*//*
+    private Collection<Privilege> privileges;*/
 }

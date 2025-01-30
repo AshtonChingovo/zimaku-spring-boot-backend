@@ -31,7 +31,7 @@ public class OrderService {
     }
 
     public Page<OrderDto> getOrders(int pageNumber, int pageSize, String sort, String orderType){
-        Pageable page = PageRequest.of(pageNumber, pageSize, Sort.by(sort).descending());
+        Pageable page = PageRequest.of(pageNumber, pageSize, Sort.by(sort).ascending());
 
         return switch (orderType) {
             case "PENDING" -> orderRepository.findOrders(false, page).map(mapper::orderToOrderDto);

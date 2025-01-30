@@ -36,7 +36,7 @@ public class DispatchService {
     }
 
     public Page<DispatchDto> getDispatches(Integer pageNumber, Integer pageSize, String sortBy) {
-        Pageable page = PageRequest.of(pageNumber, pageSize, Sort.by(sortBy).descending());
+        Pageable page = PageRequest.of(pageNumber, pageSize, Sort.by(sortBy).ascending());
         return dispatchRepository.findAll(page).map(mapper::dispatchToDispatchDto);
     }
 

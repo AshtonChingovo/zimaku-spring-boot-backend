@@ -2,6 +2,7 @@ package com.zimaku.zimaku.exception.handler;
 
 import com.zimaku.zimaku.exception.ResourceNotFoundException;
 import com.zimaku.zimaku.exception.TokenNotFoundException;
+import com.zimaku.zimaku.exception.ResourceIdNotProvidedException;
 import com.zimaku.zimaku.exception.UsernameAlreadyExistsException;
 import com.zimaku.zimaku.exception.model.ErrorDetails;
 import lombok.NonNull;
@@ -39,6 +40,11 @@ public class ExceptionHandlerController extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(UsernameNotFoundException.class)
     public ResponseEntity<Object> handleUsernameNotFoundException(UsernameNotFoundException ex, @NonNull WebRequest webRequest){
+        return errorDetailsResponse(ex, ex.getMessage(), Collections.singletonList(ex.getMessage()), webRequest, BAD_REQUEST);
+    }
+
+    @ExceptionHandler(ResourceIdNotProvidedException.class)
+    public ResponseEntity<Object> handleUserIdNotProvidedException(ResourceIdNotProvidedException ex, @NonNull WebRequest webRequest){
         return errorDetailsResponse(ex, ex.getMessage(), Collections.singletonList(ex.getMessage()), webRequest, BAD_REQUEST);
     }
 

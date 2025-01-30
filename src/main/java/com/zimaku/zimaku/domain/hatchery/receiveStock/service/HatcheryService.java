@@ -16,11 +16,11 @@ import org.springframework.stereotype.Service;
 @Service
 public class HatcheryService {
 
-    private HatcheryRepository hatcheryRepository;
-    private DispatchRepository dispatchRepository;
-    private EggsStockRepository eggsStockRepository;
+    private final HatcheryRepository hatcheryRepository;
+    private final DispatchRepository dispatchRepository;
+    private final EggsStockRepository eggsStockRepository;
 
-    private HatcheryMapper mapper;
+    private final HatcheryMapper mapper;
 
     public HatcheryService(HatcheryRepository hatcheryRepository,
                            DispatchRepository dispatchRepository,
@@ -49,7 +49,7 @@ public class HatcheryService {
     }
 
     public Page<HatcheryStockDto> getHatcheryStock(Integer pageNumber, Integer pageSize, String sort){
-        Pageable page = PageRequest.of(pageNumber, pageSize, Sort.by(sort).descending());
+        Pageable page = PageRequest.of(pageNumber, pageSize, Sort.by(sort).ascending());
         return hatcheryRepository.findAll(page).map(mapper::hatcheryStockToHatcheryDto);
     }
 

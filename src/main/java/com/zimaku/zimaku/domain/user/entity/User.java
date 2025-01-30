@@ -17,10 +17,14 @@ public class User extends Base {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
+    private String date;
     private String email;
-    private String firstname;
-    private String surname;
+    private String firstName;
+    private String lastName;
     private String password;
+    private String phoneNumber;
+    private String address;
+    private String department;
     private boolean isActive;
     @ManyToMany
     @JoinTable(
@@ -29,4 +33,19 @@ public class User extends Base {
             inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
     private Collection<Role> roles;
 
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", date='" + date + '\'' +
+                ", email='" + email + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", password='" + password + '\'' +
+                ", address='" + address + '\'' +
+                ", department='" + department + '\'' +
+                ", isActive=" + isActive +
+                ", roles=" + roles +
+                '}';
+    }
 }
