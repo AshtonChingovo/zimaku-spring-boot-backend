@@ -55,6 +55,7 @@ public class AuthService {
                 .getRefreshToken();
 
         return AuthResponseDto.builder()
+                .userId(userId)
                 .token(jwtHelper.generateToken(loginRequestDto.getEmail()))
                 .tokenType("Bearer")
                 .refreshToken(refreshToken)

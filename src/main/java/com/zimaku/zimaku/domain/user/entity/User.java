@@ -17,7 +17,6 @@ public class User extends Base {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
-    private String date;
     private String email;
     private String firstName;
     private String lastName;
@@ -37,7 +36,6 @@ public class User extends Base {
     public String toString() {
         return "User{" +
                 "id=" + id +
-                ", date='" + date + '\'' +
                 ", email='" + email + '\'' +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +

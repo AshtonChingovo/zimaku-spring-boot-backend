@@ -10,6 +10,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.UUID;
+
 @RestController
 @RequestMapping("/api/v1/users")
 public class UsersController {
@@ -26,6 +28,11 @@ public class UsersController {
             @RequestParam(defaultValue = "10") int pageSize,
             @RequestParam(defaultValue = "id") String sortBy){
         return new ResponseEntity<>(userService.getUsers(pageNumber, pageSize, sortBy), HttpStatus.OK);
+    }
+
+    @GetMapping(path = "/user/{userId}")
+    public ResponseEntity<UserDto> getUser(@PathVariable("userId") UUID userId){
+        return new ResponseEntity<UserDto>(userService.getUser(userId), HttpStatus.OK);
     }
 
     @PostMapping

@@ -19,6 +19,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
+import java.util.UUID;
 
 import static com.zimaku.zimaku.domain.util.StringUtil.DEFAULT_PASSWORD;
 import static com.zimaku.zimaku.domain.util.StringUtil.USER_ROLE_PREFIX;
@@ -50,7 +51,11 @@ public class UserService {
         var user = userMapper.userDtoToUser(userDto);
         user.setPassword(passwordEncoder.encode(DEFAULT_PASSWORD));
 
-        Role role = roleRepository.findByTitleOneRole(USER_ROLE_PREFIX + userDto.getRoles().stream().findFirst().get().getTitle()).orElseThrow(() -> new ResourceNotFoundException("Could not find role requested"));
+        Role role = roleRepository.findByTitleOneRole(USER_ROLE_PREFIX + userDto.getRoles()
+                .stream()
+                .findFirst()
+                .get().getTitle().toUpperCase())
+                .orElseThrow(() -> new ResourceNotFoundException("Could not find role requested"));
 
         user.setRoles(Collections.singletonList(role));
         userRepository.save(user);
@@ -109,5 +114,9 @@ public class UserService {
 
         user.setActive(accountActiveDto.isActive());
         userRepository.save(user);
+    }
+
+    public UserDto getUser(UUID userId) {
+        return userMapper.userToUserDto(userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User with provided ID not Found")));
     }
 }
