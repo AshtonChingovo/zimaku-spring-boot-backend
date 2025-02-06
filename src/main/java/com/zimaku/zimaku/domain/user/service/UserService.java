@@ -63,35 +63,19 @@ public class UserService {
 
     public void updateUser(UserDto userDto){
 
-        try{
-            if(userDto.getId() == null)
-                throw new ResourceIdNotProvidedException("User Id has not been provided");
+        if(userDto.getId() == null)
+            throw new ResourceIdNotProvidedException("User Id has not been provided");
 
-            var user = userRepository.findById(userDto.getId()).orElseThrow(() -> new ResourceNotFoundException("Failed to find User with requested ID"));
+        var user = userRepository.findById(userDto.getId()).orElseThrow(() -> new ResourceNotFoundException("Failed to find User with requested ID"));
 
-            user.setFirstName(userDto.getFirstName());
-            user.setLastName(userDto.getLastName());
-            user.setEmail(userDto.getEmail());
-            user.setPhoneNumber(userDto.getPhoneNumber());
-            user.setAddress(userDto.getAddress());
-            user.setDepartment(userDto.getDepartment());
+        user.setFirstName(userDto.getFirstName());
+        user.setLastName(userDto.getLastName());
+        user.setEmail(userDto.getEmail());
+        user.setPhoneNumber(userDto.getPhoneNumber());
+        user.setAddress(userDto.getAddress());
+        user.setDepartment(userDto.getDepartment());
 
-            // compare if the role is the same
-/*            boolean isSameRole = userDto.getRoles().stream().findFirst()
-                    .flatMap(dtoRole -> user.getRoles().stream().findFirst()
-                            .map(userRole -> dtoRole.getTitle().equals(userRole.getTitle())))
-                    .orElse(false);
-
-            if(!isSameRole){
-                Role role = roleRepository.findByTitleOneRole(USER_ROLE_PREFIX + userDto.getRoles().stream().findFirst().get().getTitle()).orElseThrow(() -> new ResourceNotFoundException("Could not find role requested"));
-                user.setRoles(Collections.singletonList(role));
-            }*/
-
-            userRepository.save(user);
-        }
-        catch (Exception e){
-            System.out.println("ERROR {} ::: " + e);
-        }
+        userRepository.save(user);
 
     }
 
