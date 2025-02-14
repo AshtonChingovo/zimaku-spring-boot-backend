@@ -22,7 +22,7 @@ import java.util.Collections;
 import java.util.UUID;
 
 import static com.zimaku.zimaku.domain.util.StringUtil.DEFAULT_PASSWORD;
-import static com.zimaku.zimaku.domain.util.StringUtil.USER_ROLE_PREFIX;
+import static com.zimaku.zimaku.domain.util.StringUtil.ROLE_PREFIX;
 
 @Service
 public class UserService {
@@ -51,7 +51,7 @@ public class UserService {
         var user = userMapper.userDtoToUser(userDto);
         user.setPassword(passwordEncoder.encode(DEFAULT_PASSWORD));
 
-        Role role = roleRepository.findByTitleOneRole(USER_ROLE_PREFIX + userDto.getRoles()
+        Role role = roleRepository.findByTitleOneRole(ROLE_PREFIX + userDto.getRoles()
                 .stream()
                 .findFirst()
                 .get().getTitle().toUpperCase())
@@ -73,7 +73,14 @@ public class UserService {
         user.setEmail(userDto.getEmail());
         user.setPhoneNumber(userDto.getPhoneNumber());
         user.setAddress(userDto.getAddress());
-        user.setDepartment(userDto.getDepartment());
+
+        // department & roles are not set on USER account updates
+        // they are set when ADMIN is updating USER details
+        if(userDto.getDepartment() != null)
+            user.setDepartment(userDto.getDepartment());
+
+        if(userDto.getRoles() != null)
+            user.setDepartment(userDto.getDepartment());
 
         userRepository.save(user);
 

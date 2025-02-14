@@ -13,6 +13,7 @@ import org.mapstruct.MappingTarget;
 public abstract class DispatchMapper {
 
     @Mapping(target = "date", source = "dispatch.createdDate")
+    @Mapping(target = "eggsStockId", source = "dispatch.eggsStock.id")
     public abstract DispatchDto dispatchToDispatchDto(Dispatch dispatch);
 
     public abstract Dispatch dispatchDtoToDispatch(DispatchDto dispatchDto);
@@ -20,5 +21,6 @@ public abstract class DispatchMapper {
     @AfterMapping
     void convertDateToAge(@MappingTarget DispatchDto dispatchDto) {
         dispatchDto.setAgeOnDispatch(new DateFormatConverter(dispatchDto.getDateStockReceived()).convert());
+        // dispatchDto.setEggsStockId();
     }
 }

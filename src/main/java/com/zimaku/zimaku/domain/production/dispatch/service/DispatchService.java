@@ -27,6 +27,7 @@ public class DispatchService {
     @Transactional
     public void saveDispatch(DispatchDto dispatchDto){
         var eggsStock = eggsStockRepository.findById(dispatchDto.getEggsStockId()).orElseThrow();
+
         eggsStock.setDispatched(true);
         eggsStockRepository.save(eggsStock);
 
@@ -38,6 +39,11 @@ public class DispatchService {
     public Page<DispatchDto> getDispatches(Integer pageNumber, Integer pageSize, String sortBy) {
         Pageable page = PageRequest.of(pageNumber, pageSize, Sort.by(sortBy).ascending());
         return dispatchRepository.findAll(page).map(mapper::dispatchToDispatchDto);
+    }
+
+    public Page<DispatchDto> getDispatchesNotHatchery(Integer pageNumber, Integer pageSize, String sortBy) {
+        Pageable page = PageRequest.of(pageNumber, pageSize, Sort.by(sortBy).ascending());
+        return dispatchRepository.findDispatchesNotInHatchery(page).map(mapper::dispatchToDispatchDto);
     }
 
     public void putDispatch() {

@@ -1,5 +1,6 @@
 package com.zimaku.zimaku;
 
+import com.zimaku.zimaku.domain.production.dispatch.repository.DispatchRepository;
 import com.zimaku.zimaku.domain.sales.clients.model.Client;
 import com.zimaku.zimaku.domain.sales.clients.repository.ClientRepository;
 import com.zimaku.zimaku.domain.sales.orders.model.Order;
@@ -34,7 +35,9 @@ public class Application {
 									PasswordEncoder passwordEncoder,
 									OrderRepository orderRepository,
 									ClientRepository clientRepository,
-									PriceRepository priceRepository){
+									PriceRepository priceRepository,
+									// EggsStockRepository eggsStockRepository,
+									DispatchRepository dispatchRepository){
 		return args -> {
 
 			Privilege readPrivilege = Privilege.builder()
@@ -117,8 +120,8 @@ public class Application {
 							.build()
 			);
 
-/*			eggsRepository.save(
-					Eggs.builder()
+/*			eggsStockRepository.save(
+					EggsStock.builder()
 							.quantity(20)
 							.hatchable(20)
 							.rejects(20)

@@ -16,10 +16,10 @@ import java.util.UUID;
 @RequestMapping("/api/v1/users")
 public class UsersController {
 
-    private UserService userService;
+    private final UserService usersService;
 
-    public UsersController(UserService userService) {
-        this.userService = userService;
+    public UsersController(UserService usersService) {
+        this.usersService = usersService;
     }
 
     @GetMapping
@@ -27,36 +27,35 @@ public class UsersController {
             @RequestParam(defaultValue = "0") int pageNumber,
             @RequestParam(defaultValue = "10") int pageSize,
             @RequestParam(defaultValue = "id") String sortBy){
-        return new ResponseEntity<>(userService.getUsers(pageNumber, pageSize, sortBy), HttpStatus.OK);
+        return new ResponseEntity<>(usersService.getUsers(pageNumber, pageSize, sortBy), HttpStatus.OK);
     }
 
     @GetMapping(path = "/user/{userId}")
     public ResponseEntity<UserDto> getUser(@PathVariable("userId") UUID userId){
-        return new ResponseEntity<UserDto>(userService.getUser(userId), HttpStatus.OK);
+        return new ResponseEntity<UserDto>(usersService.getUser(userId), HttpStatus.OK);
     }
 
     @PostMapping
     public ResponseEntity<?> postUser(@Valid @RequestBody UserDto userDto){
-        userService.createUser(userDto);
+        usersService.createUser(userDto);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @PutMapping
     public ResponseEntity<?> putUser(@Valid @RequestBody UserDto userDto){
-        userService.updateUser(userDto);
+        usersService.updateUser(userDto);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
     @PatchMapping(path = "/update/password")
     public ResponseEntity<?> putPassword(@Valid @RequestBody PasswordDto passwordDto){
-        userService.updatePassword(passwordDto);
+        usersService.updatePassword(passwordDto);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
     @PatchMapping(path = "/active")
     public ResponseEntity<?> deactivateUserAccount(@Valid @RequestBody AccountActiveDto accountActiveDto){
-        userService.accountActivationStatus(accountActiveDto);
+        usersService.accountActivationStatus(accountActiveDto);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
-
 }

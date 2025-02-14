@@ -34,6 +34,14 @@ public class DispatchController {
         return new ResponseEntity<>(dispatchService.getDispatches(pageNumber, pageSize, sortBy), HttpStatus.OK);
     }
 
+    @GetMapping(path = "hatchery")
+    public ResponseEntity<Page<DispatchDto>> getDispatchesNotInHatchery(
+            @RequestParam(defaultValue = "0") Integer pageNumber,
+            @RequestParam(defaultValue = "10") Integer pageSize,
+            @RequestParam(defaultValue = "id") String sortBy){
+        return new ResponseEntity<>(dispatchService.getDispatchesNotHatchery(pageNumber, pageSize, sortBy), HttpStatus.OK);
+    }
+
     @PutMapping
     public ResponseEntity putDispatch(@Valid @RequestBody DispatchDto dispatchDto){
         dispatchService.putDispatch();

@@ -43,29 +43,40 @@ public class OrderService {
 
     public void saveOrder(OrderDto orderDto){
 
-        // null id means this is a new user not persisted before i.e. new walkIn client
-        if(orderDto.getClient().id() == null){
-            var client = clientRepository.save(
-                    Client.builder()
-                            .firstName(orderDto.getClient().firstName())
-                            .lastName(orderDto.getClient().lastName())
-                            .address(orderDto.getClient().phoneNumber())
-                            .clientType(orderDto.getClient().clientType())
-                            .build()
-            );
+        Client client;
 
-            orderDto.setClient(orderMapper.clientToClientDto(client));
+        // null id means this is a walkIn client
+        if(orderDto.getClient().id() == null){
+            // check if provided phone number is in the DB
+            client = clientRepository.findByPhoneNumber(orderDto.getClient().phoneNumber()).orElse(saveAndGetNewWalkInClient(orderDto));
+        }
+        else{
+            client = clientRepository.findById(orderDto.getClient().id()).orElseThrow(() -> new ResourceNotFoundException("Client with requested id not found"));
         }
 
-        var client = clientRepository.findById(orderDto.getClient().id()).orElseThrow(() -> new ResourceNotFoundException("Client with requested id not found"));
         var price = priceRepository.findFirstByOrderByIdDesc().orElseThrow(() -> new ResourceNotFoundException("Price/unit has not been set, contact admin"));
 
+        orderDto.setClient(orderMapper.clientToClientDto(client));
         var order = orderMapper.orderDtoToOrder(orderDto);
 
         order.setClient(client);
         order.setPrice(price);
 
         orderRepository.save(order);
+    }
+
+    public Client saveAndGetNewWalkInClient(OrderDto orderDto){
+
+        clientRepository.save(
+                Client.builder()
+                        .firstName(orderDto.getClient().firstName())
+                        .lastName(orderDto.getClient().lastName())
+                        .phoneNumber(orderDto.getClient().phoneNumber())
+                        .clientType(orderDto.getClient().clientType())
+                        .build()
+        );
+
+        return clientRepository.findByPhoneNumber(orderDto.getClient().phoneNumber()).orElseThrow(() -> new ResourceNotFoundException("Client with Phone Number not found"));
     }
 
     public void updateOrder(OrderDto orderDto){

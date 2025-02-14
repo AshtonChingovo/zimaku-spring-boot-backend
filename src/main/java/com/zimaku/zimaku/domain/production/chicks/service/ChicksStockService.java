@@ -55,6 +55,8 @@ public class ChicksStockService {
                 .stream()
                 .map(averageWeightMapper::averageWeightDtoToAverageWeight)
                 .collect(Collectors.toSet());
+
+        // if some weights have been recorded before for this batch, add new ones
         if(chick.getAverageWeight() != null)
             averageWeights.addAll(chick.getAverageWeight());
 

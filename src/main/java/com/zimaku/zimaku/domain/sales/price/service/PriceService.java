@@ -27,7 +27,6 @@ public class PriceService {
 
     public Object getPrices(Integer pageNumber, Integer pageSize, String sortBy) {
         Pageable page = PageRequest.of(pageNumber, pageSize, Sort.by(sortBy));
-
-        return priceRepository.findAll(page);
+        return priceRepository.findAll(page).map(priceMapper::priceToPriceDto);
     }
 }
