@@ -54,6 +54,9 @@ public class HatcheryService {
     }
 
     public void putHatcheryStock(Integer breakages, Long id){
+        if(!hatcheryRepository.existsById(id)){
+            throw new ResourceNotFoundException("H");
+        }
         hatcheryRepository.updateHatcheryStockQuantity(breakages, id);
     }
 

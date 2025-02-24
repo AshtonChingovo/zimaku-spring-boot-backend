@@ -14,6 +14,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import static com.zimaku.zimaku.domain.util.StringUtil.SALE_COMPLETED;
+import static com.zimaku.zimaku.domain.util.StringUtil.SALE_PENDING;
+
 @Slf4j
 @Service
 public class OrderService {
@@ -34,8 +37,8 @@ public class OrderService {
         Pageable page = PageRequest.of(pageNumber, pageSize, Sort.by(sort).ascending());
 
         return switch (orderType) {
-            case "PENDING" -> orderRepository.findOrders(false, page).map(orderMapper::orderToOrderDto);
-            case "SALES" -> orderRepository.findOrders(true, page).map(orderMapper::orderToOrderDto);
+            case SALE_PENDING -> orderRepository.findOrders(false, page).map(orderMapper::orderToOrderDto);
+            case SALE_COMPLETED -> orderRepository.findOrders(true, page).map(orderMapper::orderToOrderDto);
             default -> orderRepository.findAll(page).map(orderMapper::orderToOrderDto);
         };
 
