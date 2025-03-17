@@ -1,6 +1,5 @@
 package com.zimaku.zimaku.domain.hatchery.receiveStock.service;
 
-
 import com.zimaku.zimaku.domain.hatchery.receiveStock.dto.HatcheryStockDto;
 import com.zimaku.zimaku.domain.hatchery.receiveStock.entity.HatcheryStock;
 import com.zimaku.zimaku.domain.hatchery.receiveStock.repository.HatcheryRepository;
@@ -70,6 +69,8 @@ class HatcheryServiceTest {
                 .totalStockReceived(7)
                 .dateStockReceived("23 Dec 2024")
                 .build();
+
+        dispatch.setId(1L);
 
         hatcheryStock = HatcheryStock.builder()
                 .breakages(12)

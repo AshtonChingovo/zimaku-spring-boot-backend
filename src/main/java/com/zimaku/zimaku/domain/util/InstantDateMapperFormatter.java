@@ -1,6 +1,5 @@
 package com.zimaku.zimaku.domain.util;
 
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import java.time.Instant;

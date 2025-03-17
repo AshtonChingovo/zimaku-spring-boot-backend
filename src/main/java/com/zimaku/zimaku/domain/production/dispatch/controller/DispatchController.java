@@ -42,16 +42,4 @@ public class DispatchController {
         return new ResponseEntity<>(dispatchService.getDispatchesNotHatchery(pageNumber, pageSize, sortBy), HttpStatus.OK);
     }
 
-    @PutMapping
-    public ResponseEntity putDispatch(@Valid @RequestBody DispatchDto dispatchDto){
-        dispatchService.putDispatch();
-        return ResponseEntity.status(HttpStatus.OK).build();
-    }
-
-    @DeleteMapping
-    public ResponseEntity deleteDispatch(@PathVariable Integer id){
-        dispatchService.deleteDispatch(id);
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-    }
-
 }

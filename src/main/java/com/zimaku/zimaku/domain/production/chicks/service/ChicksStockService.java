@@ -1,6 +1,7 @@
 package com.zimaku.zimaku.domain.production.chicks.service;
 
 import com.zimaku.zimaku.domain.production.chicks.dto.ChicksStockDto;
+import com.zimaku.zimaku.domain.production.chicks.entity.AverageWeight;
 import com.zimaku.zimaku.domain.production.chicks.entity.ChicksStock;
 import com.zimaku.zimaku.domain.production.chicks.repository.ChicksStockRepository;
 import com.zimaku.zimaku.exception.ResourceNotFoundException;
@@ -13,12 +14,12 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Slf4j
 @Service
 public class ChicksStockService {
-
 
     private final ChicksStockRepository chicksStockRepository;
     private ChicksMapper chicksStockMapper;
@@ -49,7 +50,12 @@ public class ChicksStockService {
     }
 
     public void saveAverageWeight(ChicksStockDto chicksStockDto){
-        ChicksStock chick = chicksStockRepository.findById(chicksStockDto.getId()).orElseThrow(() -> new ResourceNotFoundException("Chick with ID " + chicksStockDto.getId() + " not found for average weight update."));
+        ChicksStock chicksStock = chicksStockRepository.findById(chicksStockDto.getId()).orElseThrow(() -> new ResourceNotFoundException("Chick with ID " + chicksStockDto.getId() + " not found for average weight update."));
+        chicksStock.setAverageWeight(getChicksAverageWeight(chicksStock, chicksStockDto));
+        chicksStockRepository.save(chicksStock);
+    }
+
+    public Set<AverageWeight> getChicksAverageWeight(ChicksStock chicksStock, ChicksStockDto chicksStockDto){
 
         var averageWeights = chicksStockDto.getAverageWeight()
                 .stream()
@@ -57,11 +63,10 @@ public class ChicksStockService {
                 .collect(Collectors.toSet());
 
         // if some weights have been recorded before for this batch, add new ones
-        if(chick.getAverageWeight() != null)
-            averageWeights.addAll(chick.getAverageWeight());
+        if(chicksStock.getAverageWeight() != null)
+            averageWeights.addAll(chicksStock.getAverageWeight());
 
-        chick.setAverageWeight(averageWeights);
-        chicksStockRepository.save(chick);
+        return averageWeights;
     }
 
     public void putChicks(ChicksStockDto chicksStockDto){

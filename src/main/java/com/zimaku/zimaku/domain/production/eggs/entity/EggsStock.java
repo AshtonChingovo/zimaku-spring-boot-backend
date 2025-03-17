@@ -13,7 +13,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class EggsStock extends Base {
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;

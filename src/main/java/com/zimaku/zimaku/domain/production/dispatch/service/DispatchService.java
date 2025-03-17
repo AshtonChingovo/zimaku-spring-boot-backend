@@ -3,6 +3,7 @@ package com.zimaku.zimaku.domain.production.dispatch.service;
 import com.zimaku.zimaku.domain.production.dispatch.dto.DispatchDto;
 import com.zimaku.zimaku.domain.production.dispatch.repository.DispatchRepository;
 import com.zimaku.zimaku.domain.production.eggs.repository.EggsStockRepository;
+import com.zimaku.zimaku.exception.ResourceNotFoundException;
 import com.zimaku.zimaku.mapper.production.DispatchMapper;
 import jakarta.transaction.Transactional;
 import org.springframework.data.domain.Page;
@@ -26,7 +27,7 @@ public class DispatchService {
 
     @Transactional
     public void saveDispatch(DispatchDto dispatchDto){
-        var eggsStock = eggsStockRepository.findById(dispatchDto.getEggsStockId()).orElseThrow();
+        var eggsStock = eggsStockRepository.findById(dispatchDto.getEggsStockId()).orElseThrow(() -> new ResourceNotFoundException("Could not find Eggs Stock record connected to Dispatch"));
 
         eggsStock.setDispatched(true);
         eggsStockRepository.save(eggsStock);
@@ -46,11 +47,4 @@ public class DispatchService {
         return dispatchRepository.findDispatchesNotInHatchery(page).map(mapper::dispatchToDispatchDto);
     }
 
-    public void putDispatch() {
-
-    }
-
-    public void deleteDispatch(Integer id) {
-
-    }
 }
