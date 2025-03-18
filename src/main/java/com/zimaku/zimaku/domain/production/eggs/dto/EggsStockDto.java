@@ -4,9 +4,11 @@ import jakarta.validation.constraints.Digits;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
+import lombok.Builder;
 import lombok.Data;
 
 @Data
+@Builder
 public class EggsStockDto {
          Long id;
          @NotNull(message = "Quantity should be provided")

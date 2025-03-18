@@ -39,7 +39,7 @@ public class DispatchController {
             @RequestParam(defaultValue = "0") Integer pageNumber,
             @RequestParam(defaultValue = "10") Integer pageSize,
             @RequestParam(defaultValue = "id") String sortBy){
-        return new ResponseEntity<>(dispatchService.getDispatchesNotHatchery(pageNumber, pageSize, sortBy), HttpStatus.OK);
+        return new ResponseEntity<>(dispatchService.getDispatchesNotInHatchery(pageNumber, pageSize, sortBy), HttpStatus.OK);
     }
 
 }

@@ -42,7 +42,7 @@ public class DispatchService {
         return dispatchRepository.findAll(page).map(mapper::dispatchToDispatchDto);
     }
 
-    public Page<DispatchDto> getDispatchesNotHatchery(Integer pageNumber, Integer pageSize, String sortBy) {
+    public Page<DispatchDto> getDispatchesNotInHatchery(Integer pageNumber, Integer pageSize, String sortBy) {
         Pageable page = PageRequest.of(pageNumber, pageSize, Sort.by(sortBy).ascending());
         return dispatchRepository.findDispatchesNotInHatchery(page).map(mapper::dispatchToDispatchDto);
     }

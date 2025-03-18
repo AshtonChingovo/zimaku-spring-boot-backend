@@ -22,7 +22,7 @@ public class EggsStockService {
         this.mapper = mapper;
     }
 
-    public EggsStockDto saveEggs(EggsStockDto eggsStockDto){
+    public EggsStockDto saveEggsStock(EggsStockDto eggsStockDto){
         var eggsStock = eggsStockRepository.save(
                 EggsStock.builder()
                         .quantity(eggsStockDto.getQuantity())
@@ -32,20 +32,20 @@ public class EggsStockService {
                         .build()
         );
 
-        return mapper.eggsToEggsDto(eggsStock);
+        return mapper.eggsStockToEggsStockDto(eggsStock);
     }
 
-    public Page<EggsStockDto> getEggs(Integer pageNumber, Integer pageSize, String sortBy) {
+    public Page<EggsStockDto> getEggsStock(Integer pageNumber, Integer pageSize, String sortBy) {
         Pageable paging = PageRequest.of(pageNumber, pageSize, Sort.by(sortBy).ascending());
-        return eggsStockRepository.findAll(paging).map(mapper::eggsToEggsDto);
+        return eggsStockRepository.findAll(paging).map(mapper::eggsStockToEggsStockDto);
     }
 
-    public Page<EggsStockDto> getEggsNotDispatched(Integer pageNumber, Integer pageSize, String sortBy) {
+    public Page<EggsStockDto> getEggsStockNotDispatched(Integer pageNumber, Integer pageSize, String sortBy) {
         Pageable paging = PageRequest.of(pageNumber, pageSize, Sort.by(sortBy).ascending());
-        return eggsStockRepository.findEggsNotDispatched(paging).map(mapper::eggsToEggsDto);
+        return eggsStockRepository.findEggsNotDispatched(paging).map(mapper::eggsStockToEggsStockDto);
     }
 
-    public void putEggs(EggsStockDto eggsStockDto) {
+    public void putEggsStock(EggsStockDto eggsStockDto) {
         EggsStock eggsStock = eggsStockRepository.findById(eggsStockDto.getId()).orElseThrow(() -> new ResourceNotFoundException("Failed to find resource you want to update"));
 
         eggsStock.setQuantity(eggsStockDto.getQuantity());

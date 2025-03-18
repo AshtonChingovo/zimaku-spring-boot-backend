@@ -85,7 +85,7 @@ class ChicksStockServiceTest {
 
     @Test
     @DisplayName("testSaveChicks_ShouldReturnNoneNullObject")
-    public void testSaveChicks_WhenSaveChicks_ShouldReturnDTOObject(){
+    void testSaveChicks_WhenSaveChicks_ShouldReturnDTOObject(){
 
         when(chicksStockRepository.save(any(ChicksStock.class))).thenReturn(chicksStock);
         when(chicksMapper.chicksToChicksDto(any(ChicksStock.class))).thenReturn(chicksStockDto);
@@ -98,7 +98,7 @@ class ChicksStockServiceTest {
 
     @Test
     @DisplayName("testGetChicks_ShouldPaginationResult")
-    public void testGetChicks_WhenGetChicks_ShouldPaginationResult(){
+    void testGetChicks_WhenGetChicks_ShouldPaginationResult(){
         Page<ChicksStock> page = new PageImpl<>(List.of(chicksStock));
 
         when(chicksStockRepository.findAll(any(Pageable.class))).thenReturn(page);
@@ -112,7 +112,7 @@ class ChicksStockServiceTest {
 
     @Test
     @DisplayName("testSaveAverageWeight_ShouldThrowResourceNotFoundException(")
-    public void testSaveAverageWeight_WhenChicksStockIDNotFound_ShouldThrowResourceNotFoundException(){
+    void testSaveAverageWeight_WhenChicksStockIDNotFound_ShouldThrowResourceNotFoundException(){
 
         when(chicksStockRepository.findById(any(Long.class))).thenReturn(Optional.empty());
 
@@ -120,7 +120,7 @@ class ChicksStockServiceTest {
     }
 
     @Test
-    public void testSaveAverageWeight_WhenSaveAverageWeight_ShouldCallRepositorySave(){
+    void testSaveAverageWeight_WhenSaveAverageWeight_ShouldCallRepositorySave(){
 
         when(chicksStockRepository.findById(any(Long.class))).thenReturn(Optional.of(chicksStock));
         when(averageWeightMapper.averageWeightDtoToAverageWeight(any(AverageWeightDto.class))).thenReturn(averageWeight);

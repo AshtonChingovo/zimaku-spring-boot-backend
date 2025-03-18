@@ -1,6 +1,5 @@
 package com.zimaku.zimaku.domain.production.dispatch.service;
 
-import com.zimaku.zimaku.domain.production.chicks.entity.ChicksStock;
 import com.zimaku.zimaku.domain.production.dispatch.dto.DispatchDto;
 import com.zimaku.zimaku.domain.production.dispatch.entity.Dispatch;
 import com.zimaku.zimaku.domain.production.dispatch.repository.DispatchRepository;
@@ -101,6 +100,19 @@ class DispatchServiceTest {
         when(dispatchRepository.findAll(any(Pageable.class))).thenReturn(page);
 
         var pageResult = dispatchService.getDispatches(0, 10, "id");
+
+        assertNotNull(pageResult);
+        assertEquals(1, pageResult.getContent().size());
+
+    }
+
+    @Test
+    void testGetDispatchesNotInHatchery(){
+        Page<Dispatch> page = new PageImpl<>(List.of(dispatch));
+
+        when(dispatchRepository.findAll(any(Pageable.class))).thenReturn(page);
+
+        var pageResult = dispatchService.getDispatchesNotInHatchery(0, 10, "id");
 
         assertNotNull(pageResult);
         assertEquals(1, pageResult.getContent().size());

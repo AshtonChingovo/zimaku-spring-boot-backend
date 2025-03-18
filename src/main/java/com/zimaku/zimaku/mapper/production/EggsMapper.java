@@ -13,7 +13,7 @@ import org.mapstruct.MappingTarget;
 public abstract class EggsMapper {
 
     @Mapping(target = "date", source = "eggsStock.createdDate")
-    public abstract EggsStockDto eggsToEggsDto(EggsStock eggsStock);
+    public abstract EggsStockDto eggsStockToEggsStockDto(EggsStock eggsStock);
 
     public abstract EggsStock eggsDtoToEggs(EggsStockDto eggsStockDto);
 
