@@ -41,7 +41,6 @@ public class OrderService {
             case SALE_COMPLETED -> orderRepository.findOrders(true, page).map(orderMapper::orderToOrderDto);
             default -> orderRepository.findAll(page).map(orderMapper::orderToOrderDto);
         };
-
     }
 
     public void saveOrder(OrderDto orderDto){
@@ -51,7 +50,7 @@ public class OrderService {
         // null id means this is a walkIn client
         if(orderDto.getClient().id() == null){
             // check if provided phone number is in the DB
-            client = clientRepository.findByPhoneNumber(orderDto.getClient().phoneNumber()).orElse(saveAndGetNewWalkInClient(orderDto));
+            client = clientRepository.findByPhoneNumber(orderDto.getClient().phoneNumber()).orElse(saveThenGetNewWalkInClient(orderDto));
         }
         else{
             client = clientRepository.findById(orderDto.getClient().id()).orElseThrow(() -> new ResourceNotFoundException("Client with requested id not found"));
@@ -68,7 +67,7 @@ public class OrderService {
         orderRepository.save(order);
     }
 
-    public Client saveAndGetNewWalkInClient(OrderDto orderDto){
+    public Client saveThenGetNewWalkInClient(OrderDto orderDto){
 
         clientRepository.save(
                 Client.builder()

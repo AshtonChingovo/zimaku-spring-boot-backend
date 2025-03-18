@@ -48,8 +48,9 @@ public class UserService {
 
     public void createUser(UserDto userDto){
         // setup account with default login password
+        var password = passwordEncoder.encode(DEFAULT_PASSWORD);
         var user = userMapper.userDtoToUser(userDto);
-        user.setPassword(passwordEncoder.encode(DEFAULT_PASSWORD));
+        user.setPassword(password);
 
         Role role = roleRepository.findByTitleOneRole(ROLE_PREFIX + userDto.getRoles()
                 .stream()
