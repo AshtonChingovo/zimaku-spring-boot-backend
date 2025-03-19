@@ -27,8 +27,6 @@ import static com.zimaku.zimaku.domain.util.StringUtil.ROLE_PREFIX;
 @Service
 public class UserService {
 
-    private static final Logger log = LoggerFactory.getLogger(UserService.class);
-
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
