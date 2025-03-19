@@ -4,6 +4,7 @@ import com.zimaku.zimaku.domain.sales.price.dto.PriceDto;
 import com.zimaku.zimaku.domain.sales.price.repository.PriceRepository;
 import com.zimaku.zimaku.mapper.sales.PriceMapper;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -25,7 +26,7 @@ public class PriceService {
         priceRepository.save(priceMapper.priceDtoToPrice(priceDto));
     }
 
-    public Object getPrices(Integer pageNumber, Integer pageSize, String sortBy) {
+    public Page<PriceDto> getPrices(Integer pageNumber, Integer pageSize, String sortBy) {
         Pageable page = PageRequest.of(pageNumber, pageSize, Sort.by(sortBy));
         return priceRepository.findAll(page).map(priceMapper::priceToPriceDto);
     }
