@@ -11,7 +11,6 @@ import com.zimaku.zimaku.domain.sales.price.model.Price;
 import com.zimaku.zimaku.domain.sales.price.repository.PriceRepository;
 import com.zimaku.zimaku.exception.ResourceNotFoundException;
 import com.zimaku.zimaku.mapper.sales.OrderMapper;
-import org.hibernate.ResourceClosedException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -29,7 +28,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-class OrderServiceTest {
+class OrderServiceImplTest {
 
     @Mock
     OrderRepository orderRepository;
@@ -41,7 +40,7 @@ class OrderServiceTest {
     OrderMapper orderMapper;
 
     @InjectMocks
-    OrderService orderService;
+    OrderServiceImpl orderServiceImpl;
 
     Order order;
     OrderDto orderDtoNullClientID;
@@ -134,7 +133,7 @@ class OrderServiceTest {
         when(orderRepository.findOrders(false, pageable)).thenReturn(page);
         when(orderMapper.orderToOrderDto(any(Order.class))).thenReturn(orderDtoNullClientID);
 
-        orderService.getOrders(0, 10, "id", "PENDING");
+        orderServiceImpl.getOrders(0, 10, "id", "PENDING");
 
         verify(orderRepository).findOrders(false, pageable);
 
@@ -148,7 +147,7 @@ class OrderServiceTest {
         when(orderRepository.findAll( pageable)).thenReturn(page);
         when(orderMapper.orderToOrderDto(any(Order.class))).thenReturn(orderDtoNullClientID);
 
-        orderService.getOrders(0, 10, "id", "");
+        orderServiceImpl.getOrders(0, 10, "id", "");
 
         verify(orderRepository, times(1)).findAll(pageable);
 
@@ -162,7 +161,7 @@ class OrderServiceTest {
         when(priceRepository.findFirstByOrderByIdDesc()).thenReturn(Optional.of(price));
         when(orderMapper.clientToClientDto(any(Client.class))).thenReturn(clientDto);
 
-        orderService.saveOrder(orderDtoNullClientID);
+        orderServiceImpl.saveOrder(orderDtoNullClientID);
 
         verify(clientRepository, times(2)).findByPhoneNumber(orderDtoNullClientID.getClient().phoneNumber());
         verify(clientRepository, times(0)).findById(UUID.randomUUID());
@@ -176,7 +175,7 @@ class OrderServiceTest {
         when(priceRepository.findFirstByOrderByIdDesc()).thenReturn(Optional.of(price));
         when(orderMapper.clientToClientDto(any(Client.class))).thenReturn(clientDto);
 
-        orderService.saveOrder(orderDtoNotNullClientId);
+        orderServiceImpl.saveOrder(orderDtoNotNullClientId);
 
         verify(clientRepository).findById(clientId);
         verify(clientRepository, times(0)).findByPhoneNumber(orderDtoNullClientID.getClient().phoneNumber());
@@ -187,7 +186,7 @@ class OrderServiceTest {
 
         when(clientRepository.findById(clientId)).thenReturn(Optional.empty());
 
-        assertThrows(ResourceNotFoundException.class, () -> orderService.saveOrder(orderDtoNotNullClientId));
+        assertThrows(ResourceNotFoundException.class, () -> orderServiceImpl.saveOrder(orderDtoNotNullClientId));
 
     }
 
@@ -197,7 +196,7 @@ class OrderServiceTest {
         when(clientRepository.findById(clientId)).thenReturn(Optional.of(client));
         when(priceRepository.findFirstByOrderByIdDesc()).thenReturn(Optional.empty());
 
-        assertThrows(ResourceNotFoundException.class, () -> orderService.saveOrder(orderDtoNotNullClientId));
+        assertThrows(ResourceNotFoundException.class, () -> orderServiceImpl.saveOrder(orderDtoNotNullClientId));
 
     }
 
@@ -207,7 +206,7 @@ class OrderServiceTest {
         when(clientRepository.save(any(Client.class))).thenReturn(client);
         when(clientRepository.findByPhoneNumber(any(String.class))).thenReturn(Optional.empty());
 
-        assertThrows(ResourceNotFoundException.class, () -> orderService.saveThenGetNewWalkInClient(orderDtoNotNullClientId));
+        assertThrows(ResourceNotFoundException.class, () -> orderServiceImpl.saveThenGetNewWalkInClient(orderDtoNotNullClientId));
 
     }
 
@@ -216,7 +215,7 @@ class OrderServiceTest {
 
         when(orderRepository.findById(any(Long.class))).thenReturn(Optional.empty());
 
-        assertThrows(ResourceNotFoundException.class, () -> orderService.updateOrder(orderDtoNullClientID));
+        assertThrows(ResourceNotFoundException.class, () -> orderServiceImpl.updateOrder(orderDtoNullClientID));
     }
 
 }

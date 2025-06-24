@@ -14,7 +14,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 @Service
-public class HatcheryService {
+public class HatcheryServiceImpl {
 
     private final HatcheryRepository hatcheryRepository;
     private final DispatchRepository dispatchRepository;
@@ -22,10 +22,10 @@ public class HatcheryService {
 
     private final HatcheryMapper mapper;
 
-    public HatcheryService(HatcheryRepository hatcheryRepository,
-                           DispatchRepository dispatchRepository,
-                           EggsStockRepository eggsStockRepository,
-                           HatcheryMapper mapper) {
+    public HatcheryServiceImpl(HatcheryRepository hatcheryRepository,
+                               DispatchRepository dispatchRepository,
+                               EggsStockRepository eggsStockRepository,
+                               HatcheryMapper mapper) {
         this.hatcheryRepository = hatcheryRepository;
         this.dispatchRepository = dispatchRepository;
         this.eggsStockRepository = eggsStockRepository;

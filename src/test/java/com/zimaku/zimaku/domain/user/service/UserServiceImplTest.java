@@ -28,7 +28,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-class UserServiceTest {
+class UserServiceImplTest {
 
     @Mock
     UserRepository userRepository;
@@ -38,7 +38,7 @@ class UserServiceTest {
     UserMapper mapper;
 
     @InjectMocks
-    UserService userService;
+    UserServiceImpl userServiceImpl;
 
     UserDto userDtoNullId;
     UserDto userDto;
@@ -100,7 +100,7 @@ class UserServiceTest {
         when(userRepository.findAll(any(Pageable.class))).thenReturn(page);
         when(mapper.userToUserDto(any(User.class))).thenReturn(userDtoNullId);
 
-        var pagination = userService.getUsers(0, 10, "id");
+        var pagination = userServiceImpl.getUsers(0, 10, "id");
 
         assertEquals(1, pagination.getContent().size());
     }
@@ -108,7 +108,7 @@ class UserServiceTest {
     @Test
     void testUpdateUser_WhenUserDtoIdNotFound_ShouldThrowException(){
 
-        assertThrows(ResourceIdNotProvidedException.class, () -> userService.updateUser(userDtoNullId));
+        assertThrows(ResourceIdNotProvidedException.class, () -> userServiceImpl.updateUser(userDtoNullId));
 
     }
 
@@ -117,14 +117,14 @@ class UserServiceTest {
 
         when(userRepository.findById(any(UUID.class))).thenReturn(Optional.empty());
 
-        assertThrows(ResourceNotFoundException.class, () -> userService.updateUser(userDto));
+        assertThrows(ResourceNotFoundException.class, () -> userServiceImpl.updateUser(userDto));
 
     }
 
     @Test
     void testUpdatePassword_WhenUpdatePasswordDtoIdIsNull_ShouldThrowException(){
 
-        assertThrows(ResourceIdNotProvidedException.class, () -> userService.updatePassword(passwordDtoNullId));
+        assertThrows(ResourceIdNotProvidedException.class, () -> userServiceImpl.updatePassword(passwordDtoNullId));
 
     }
 
@@ -134,7 +134,7 @@ class UserServiceTest {
 
         when(userRepository.findById(any(UUID.class))).thenReturn(Optional.empty());
 
-        assertThrows(ResourceNotFoundException.class, () -> userService.updatePassword(passwordDto));
+        assertThrows(ResourceNotFoundException.class, () -> userServiceImpl.updatePassword(passwordDto));
 
     }
 

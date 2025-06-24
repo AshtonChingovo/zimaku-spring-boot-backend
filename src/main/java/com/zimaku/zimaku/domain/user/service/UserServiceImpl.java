@@ -9,8 +9,6 @@ import com.zimaku.zimaku.domain.user.repository.UserRepository;
 import com.zimaku.zimaku.exception.ResourceNotFoundException;
 import com.zimaku.zimaku.exception.ResourceIdNotProvidedException;
 import com.zimaku.zimaku.mapper.user.UserMapper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -25,14 +23,14 @@ import static com.zimaku.zimaku.domain.util.StringUtil.DEFAULT_PASSWORD;
 import static com.zimaku.zimaku.domain.util.StringUtil.ROLE_PREFIX;
 
 @Service
-public class UserService {
+public class UserServiceImpl {
 
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
     private final UserMapper userMapper;
 
-    public UserService(UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder, UserMapper userMapper) {
+    public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder, UserMapper userMapper) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.passwordEncoder = passwordEncoder;

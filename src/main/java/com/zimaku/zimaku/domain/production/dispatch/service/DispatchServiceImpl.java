@@ -13,13 +13,13 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 @Service
-public class DispatchService {
+public class DispatchServiceImpl {
 
     private DispatchRepository dispatchRepository;
     private EggsStockRepository eggsStockRepository;
     private DispatchMapper mapper;
 
-    public DispatchService(DispatchRepository dispatchRepository, DispatchMapper mapper, EggsStockRepository eggsStockRepository) {
+    public DispatchServiceImpl(DispatchRepository dispatchRepository, DispatchMapper mapper, EggsStockRepository eggsStockRepository) {
         this.dispatchRepository = dispatchRepository;
         this.eggsStockRepository = eggsStockRepository;
         this.mapper = mapper;

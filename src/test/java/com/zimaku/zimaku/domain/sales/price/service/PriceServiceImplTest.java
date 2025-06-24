@@ -21,7 +21,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-class PriceServiceTest {
+class PriceServiceImplTest {
 
     @Mock
     PriceRepository priceRepository;
@@ -29,7 +29,7 @@ class PriceServiceTest {
     PriceMapper priceMapper;
 
     @InjectMocks
-    PriceService priceService;
+    PriceServiceImpl priceServiceImpl;
 
     PriceDto priceDto;
     Price price;
@@ -56,7 +56,7 @@ class PriceServiceTest {
 
         when(priceRepository.findAll(any(Pageable.class))).thenReturn(page);
 
-        var pagination = priceService.getPrices(0, 10, "id");
+        var pagination = priceServiceImpl.getPrices(0, 10, "id");
 
         assertEquals(1, pagination.getContent().size());
 

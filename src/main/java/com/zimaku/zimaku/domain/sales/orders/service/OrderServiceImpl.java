@@ -19,14 +19,14 @@ import static com.zimaku.zimaku.domain.util.StringUtil.SALE_PENDING;
 
 @Slf4j
 @Service
-public class OrderService {
+public class OrderServiceImpl {
 
     private final OrderRepository orderRepository;
     private final ClientRepository clientRepository;
     private final PriceRepository priceRepository;
     private final OrderMapper orderMapper;
 
-    public OrderService(OrderRepository orderRepository, ClientRepository clientRepository, PriceRepository priceRepository, OrderMapper orderMapper) {
+    public OrderServiceImpl(OrderRepository orderRepository, ClientRepository clientRepository, PriceRepository priceRepository, OrderMapper orderMapper) {
         this.orderRepository = orderRepository;
         this.clientRepository = clientRepository;
         this.priceRepository = priceRepository;

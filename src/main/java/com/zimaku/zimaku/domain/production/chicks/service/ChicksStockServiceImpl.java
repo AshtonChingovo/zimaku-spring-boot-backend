@@ -19,13 +19,13 @@ import java.util.stream.Collectors;
 
 @Slf4j
 @Service
-public class ChicksStockService {
+public class ChicksStockServiceImpl {
 
     private final ChicksStockRepository chicksStockRepository;
     private ChicksMapper chicksStockMapper;
     private AverageWeightMapper averageWeightMapper;
 
-    public ChicksStockService(ChicksStockRepository chicksStockRepository, ChicksMapper chicksStockMapper, AverageWeightMapper averageWeightMapper) {
+    public ChicksStockServiceImpl(ChicksStockRepository chicksStockRepository, ChicksMapper chicksStockMapper, AverageWeightMapper averageWeightMapper) {
         this.chicksStockRepository = chicksStockRepository;
         this.chicksStockMapper = chicksStockMapper;
         this.averageWeightMapper = averageWeightMapper;

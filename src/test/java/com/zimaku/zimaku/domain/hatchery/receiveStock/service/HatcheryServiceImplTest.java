@@ -28,7 +28,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-class HatcheryServiceTest {
+class HatcheryServiceImplTest {
 
     @Mock
     HatcheryRepository hatcheryRepository;
@@ -40,7 +40,7 @@ class HatcheryServiceTest {
     EggsStockRepository eggsStockRepository;
 
     @InjectMocks
-    HatcheryService hatcheryService;
+    HatcheryServiceImpl hatcheryServiceImpl;
 
     @Mock
     HatcheryMapper mapper;
@@ -98,7 +98,7 @@ class HatcheryServiceTest {
         when(eggsStockRepository.findById(any(Long.class))).thenReturn(Optional.of(eggsStock));
         when(dispatchRepository.findById(any(Long.class))).thenReturn(Optional.of(dispatch));
 
-        hatcheryService.saveHatcheryStock(hatcheryStockDto);
+        hatcheryServiceImpl.saveHatcheryStock(hatcheryStockDto);
 
         verify(hatcheryRepository, times(1)).save(hatcheryStock);
 
@@ -110,7 +110,7 @@ class HatcheryServiceTest {
 
         when(eggsStockRepository.findById(any(Long.class))).thenReturn(Optional.empty());
 
-        assertThrows(ResourceNotFoundException.class, () -> hatcheryService.saveHatcheryStock(hatcheryStockDto));
+        assertThrows(ResourceNotFoundException.class, () -> hatcheryServiceImpl.saveHatcheryStock(hatcheryStockDto));
 
     }
 
@@ -121,7 +121,7 @@ class HatcheryServiceTest {
         when(eggsStockRepository.findById(any(Long.class))).thenReturn(Optional.of(eggsStock));
         when(dispatchRepository.findById(any(Long.class))).thenReturn(Optional.empty());
 
-        assertThrows(ResourceNotFoundException.class, () -> hatcheryService.saveHatcheryStock(hatcheryStockDto));
+        assertThrows(ResourceNotFoundException.class, () -> hatcheryServiceImpl.saveHatcheryStock(hatcheryStockDto));
 
     }
 
@@ -134,7 +134,7 @@ class HatcheryServiceTest {
         when(hatcheryRepository.findAll(any(Pageable.class))).thenReturn(page);
         when(mapper.hatcheryStockToHatcheryDto(any(HatcheryStock.class))).thenReturn(hatcheryStockDto);
 
-        var pageResult = hatcheryService.getHatcheryStock(0, 10, "id");
+        var pageResult = hatcheryServiceImpl.getHatcheryStock(0, 10, "id");
 
         assertNotNull(pageResult);
         assertEquals(1, pageResult.getSize());
@@ -150,7 +150,7 @@ class HatcheryServiceTest {
 
         when(hatcheryRepository.existsById(any(Long.class))).thenReturn(true);
 
-        hatcheryService.putHatcheryStock(breakages, hatcheryStockId);
+        hatcheryServiceImpl.putHatcheryStock(breakages, hatcheryStockId);
 
         verify(hatcheryRepository).updateHatcheryStockQuantity(breakages, hatcheryStockId);
 
@@ -164,7 +164,7 @@ class HatcheryServiceTest {
 
         when(hatcheryRepository.existsById(any(Long.class))).thenReturn(false);
 
-        assertThrows(ResourceNotFoundException.class, () -> hatcheryService.putHatcheryStock(breakages, hatcheryStockId));
+        assertThrows(ResourceNotFoundException.class, () -> hatcheryServiceImpl.putHatcheryStock(breakages, hatcheryStockId));
 
     }
 

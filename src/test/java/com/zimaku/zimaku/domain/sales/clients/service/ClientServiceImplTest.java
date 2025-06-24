@@ -24,7 +24,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-class ClientServiceTest {
+class ClientServiceImplTest {
 
     @Mock
     ClientRepository clientRepository;
@@ -32,7 +32,7 @@ class ClientServiceTest {
     ClientMapper clientMapper;
 
     @InjectMocks
-    ClientService clientService;
+    ClientServiceImpl clientServiceImpl;
 
     ClientDto clientDto;
     Client client;
@@ -68,7 +68,7 @@ class ClientServiceTest {
         when(clientRepository.findAll(any(Pageable.class))).thenReturn(page);
         when(clientMapper.clientToClientDto(any(Client.class))).thenReturn(clientDto);
 
-        var result = clientService.getClients(0, 10, "id");
+        var result = clientServiceImpl.getClients(0, 10, "id");
 
         assertEquals(1, result.getContent().size());
 
@@ -79,7 +79,7 @@ class ClientServiceTest {
 
         when(clientRepository.findById(any(UUID.class))).thenReturn(Optional.empty());
 
-        assertThrows(ResourceNotFoundException.class, () -> clientService.putClient(clientDto));
+        assertThrows(ResourceNotFoundException.class, () -> clientServiceImpl.putClient(clientDto));
     }
 
 }

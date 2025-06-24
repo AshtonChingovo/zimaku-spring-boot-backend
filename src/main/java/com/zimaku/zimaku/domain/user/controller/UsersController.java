@@ -3,7 +3,7 @@ package com.zimaku.zimaku.domain.user.controller;
 import com.zimaku.zimaku.domain.user.dto.AccountActiveDto;
 import com.zimaku.zimaku.domain.user.dto.PasswordDto;
 import com.zimaku.zimaku.domain.user.dto.UserDto;
-import com.zimaku.zimaku.domain.user.service.UserService;
+import com.zimaku.zimaku.domain.user.service.UserServiceImpl;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -16,9 +16,9 @@ import java.util.UUID;
 @RequestMapping("/api/v1/users")
 public class UsersController {
 
-    private final UserService usersService;
+    private final UserServiceImpl usersService;
 
-    public UsersController(UserService usersService) {
+    public UsersController(UserServiceImpl usersService) {
         this.usersService = usersService;
     }
 

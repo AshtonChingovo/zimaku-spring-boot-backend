@@ -26,7 +26,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-class DispatchServiceTest {
+class DispatchServiceImplTest {
 
     @Mock
     DispatchRepository dispatchRepository;
@@ -36,7 +36,7 @@ class DispatchServiceTest {
     DispatchMapper mapper;
 
     @InjectMocks
-    DispatchService dispatchService;
+    DispatchServiceImpl dispatchServiceImpl;
 
     Dispatch dispatch;
     DispatchDto dispatchDto;
@@ -74,7 +74,7 @@ class DispatchServiceTest {
 
         when(eggsStockRepository.findById(any(Long.class))).thenReturn(Optional.empty());
 
-        assertThrows(ResourceNotFoundException.class, () -> dispatchService.saveDispatch(dispatchDto));
+        assertThrows(ResourceNotFoundException.class, () -> dispatchServiceImpl.saveDispatch(dispatchDto));
 
     }
 
@@ -84,7 +84,7 @@ class DispatchServiceTest {
         when(eggsStockRepository.findById(any(Long.class))).thenReturn(Optional.of(eggsStock));
         when(mapper.dispatchDtoToDispatch(any(DispatchDto.class))).thenReturn(dispatch);
 
-        dispatchService.saveDispatch(dispatchDto);
+        dispatchServiceImpl.saveDispatch(dispatchDto);
 
         assertTrue(eggsStock.isDispatched());
         verify(eggsStockRepository).save(eggsStock);
@@ -99,7 +99,7 @@ class DispatchServiceTest {
 
         when(dispatchRepository.findAll(any(Pageable.class))).thenReturn(page);
 
-        var pageResult = dispatchService.getDispatches(0, 10, "id");
+        var pageResult = dispatchServiceImpl.getDispatches(0, 10, "id");
 
         assertNotNull(pageResult);
         assertEquals(1, pageResult.getContent().size());
@@ -112,7 +112,7 @@ class DispatchServiceTest {
 
         when(dispatchRepository.findAll(any(Pageable.class))).thenReturn(page);
 
-        var pageResult = dispatchService.getDispatchesNotInHatchery(0, 10, "id");
+        var pageResult = dispatchServiceImpl.getDispatchesNotInHatchery(0, 10, "id");
 
         assertNotNull(pageResult);
         assertEquals(1, pageResult.getContent().size());

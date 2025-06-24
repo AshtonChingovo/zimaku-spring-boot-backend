@@ -12,12 +12,12 @@ import org.springframework.stereotype.Service;
 
 @Slf4j
 @Service
-public class PriceService {
+public class PriceServiceImpl {
 
     private final PriceRepository priceRepository;
     private final PriceMapper priceMapper;
 
-    public PriceService(PriceRepository priceRepository, PriceMapper priceMapper) {
+    public PriceServiceImpl(PriceRepository priceRepository, PriceMapper priceMapper) {
         this.priceRepository = priceRepository;
         this.priceMapper = priceMapper;
     }

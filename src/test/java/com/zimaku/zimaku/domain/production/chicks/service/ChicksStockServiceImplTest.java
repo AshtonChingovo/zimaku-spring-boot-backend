@@ -29,7 +29,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-class ChicksStockServiceTest {
+class ChicksStockServiceImplTest {
 
     @Mock
     ChicksStockRepository chicksStockRepository;
@@ -41,7 +41,7 @@ class ChicksStockServiceTest {
     ChicksStock chicksStockMock;
 
     @InjectMocks
-    ChicksStockService chicksStockService;
+    ChicksStockServiceImpl chicksStockServiceImpl;
 
     ChicksStock chicksStock;
     ChicksStockDto chicksStockDto;
@@ -90,7 +90,7 @@ class ChicksStockServiceTest {
         when(chicksStockRepository.save(any(ChicksStock.class))).thenReturn(chicksStock);
         when(chicksMapper.chicksToChicksDto(any(ChicksStock.class))).thenReturn(chicksStockDto);
 
-        ChicksStockDto chicksDto = chicksStockService.saveChicks(chicksStockDto);
+        ChicksStockDto chicksDto = chicksStockServiceImpl.saveChicks(chicksStockDto);
 
         verify(chicksMapper).chicksToChicksDto(any());
         assertNotNull(chicksDto);
@@ -104,7 +104,7 @@ class ChicksStockServiceTest {
         when(chicksStockRepository.findAll(any(Pageable.class))).thenReturn(page);
         when(chicksMapper.chicksToChicksDto(any(ChicksStock.class))).thenReturn(chicksStockDto);
 
-        var pageResult = chicksStockService.getChicks(0, 10, "id");
+        var pageResult = chicksStockServiceImpl.getChicks(0, 10, "id");
 
         assertNotNull(pageResult);
         assertEquals(1, pageResult.getContent().size());
@@ -116,7 +116,7 @@ class ChicksStockServiceTest {
 
         when(chicksStockRepository.findById(any(Long.class))).thenReturn(Optional.empty());
 
-        assertThrows(ResourceNotFoundException.class, () -> chicksStockService.saveAverageWeight(chicksStockDto));
+        assertThrows(ResourceNotFoundException.class, () -> chicksStockServiceImpl.saveAverageWeight(chicksStockDto));
     }
 
     @Test
@@ -125,7 +125,7 @@ class ChicksStockServiceTest {
         when(chicksStockRepository.findById(any(Long.class))).thenReturn(Optional.of(chicksStock));
         when(averageWeightMapper.averageWeightDtoToAverageWeight(any(AverageWeightDto.class))).thenReturn(averageWeight);
 
-        chicksStockService.saveAverageWeight(chicksStockDto);
+        chicksStockServiceImpl.saveAverageWeight(chicksStockDto);
 
         verify(chicksStockRepository).save(chicksStock);
 

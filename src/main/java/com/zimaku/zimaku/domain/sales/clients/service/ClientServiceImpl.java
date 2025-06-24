@@ -12,12 +12,12 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 @Service
-public class ClientService {
+public class ClientServiceImpl {
 
     private ClientRepository clientRepository;
     private ClientMapper mapper;
 
-    public ClientService(ClientRepository clientRepository, ClientMapper mapper) {
+    public ClientServiceImpl(ClientRepository clientRepository, ClientMapper mapper) {
         this.clientRepository = clientRepository;
         this.mapper = mapper;
     }
